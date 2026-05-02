@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Squada_One, Inter, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import KofiWidget from "@/components/KofiWidget";
 import "./globals.css";
 
@@ -116,6 +117,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-bg text-text antialiased">
         {children}
         <KofiWidget />
+        <Analytics />
       </body>
     </html>
   );

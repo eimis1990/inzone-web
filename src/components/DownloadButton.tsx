@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { trackEvent } from "@/lib/analytics";
 
 type Platform = "mac" | "other";
 
@@ -77,6 +78,7 @@ export default function DownloadButton() {
       {/* Apple Silicon - Primary */}
       <motion.a
         href="/api/download?arch=arm64"
+        onClick={() => trackEvent.downloadAppleSilicon()}
         className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
           isAppleSilicon
             ? "bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
@@ -92,6 +94,7 @@ export default function DownloadButton() {
       {/* Intel Mac - Secondary */}
       <motion.a
         href="/api/download?arch=x64"
+        onClick={() => trackEvent.downloadIntelMac()}
         className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
           !isAppleSilicon
             ? "bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
