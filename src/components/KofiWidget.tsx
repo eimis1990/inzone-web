@@ -1,30 +1,43 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { trackEvent } from "@/lib/analytics";
 
 export default function KofiWidget() {
+  const isHoveringKofi = useRef(false);
+
   useEffect(() => {
-    // Track Ko-fi widget interactions when the floating button is clicked
-    const handleKofiClick = () => {
-      trackEvent.kofiWidgetClick();
+    // Track Ko-fi clicks using window blur detection
+    // When user clicks inside an iframe, the main window loses focus
+    const handleWindowBlur = () => {
+      if (isHoveringKofi.current) {
+        trackEvent.kofiWidgetClick();
+      }
     };
 
-    // Add listener with a delay to ensure Ko-fi widget is loaded
-    const timer = setTimeout(() => {
-      const kofiButton = document.querySelector('[id^="kofi-floating-chat"]');
-      if (kofiButton) {
-        kofiButton.addEventListener("click", handleKofiClick);
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[id^="kofi-floating-chat"]')) {
+        isHoveringKofi.current = true;
       }
-    }, 2000);
+    };
+
+    const handleMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[id^="kofi-floating-chat"]')) {
+        isHoveringKofi.current = false;
+      }
+    };
+
+    window.addEventListener("blur", handleWindowBlur);
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
 
     return () => {
-      clearTimeout(timer);
-      const kofiButton = document.querySelector('[id^="kofi-floating-chat"]');
-      if (kofiButton) {
-        kofiButton.removeEventListener("click", handleKofiClick);
-      }
+      window.removeEventListener("blur", handleWindowBlur);
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
     };
   }, []);
 
