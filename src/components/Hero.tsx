@@ -89,16 +89,6 @@ export default function Hero() {
             >
               <DownloadButton />
             </motion.div>
-
-            {/* Trust line */}
-            <motion.p
-              className="text-sm text-muted"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              Free. MIT-licensed. Signed and notarized.
-            </motion.p>
           </div>
 
           {/* Right column - Animated Mock */}
