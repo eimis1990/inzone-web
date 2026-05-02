@@ -1,4 +1,4 @@
-import { track } from "@vercel/analytics";
+import { track } from "@vercel/analytics/react";
 
 /**
  * Track custom events in Vercel Analytics
