@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import Image from "next/image";
 import ScrollReveal from "./ScrollReveal";
 
 interface Feature {
@@ -13,267 +12,80 @@ interface Feature {
 }
 
 // Visual components for each feature
-function MultiPaneVisual() {
-  const panes = [
-    { emoji: "🎨", name: "frontend", color: "#E4D947" },
-    { emoji: "⚙️", name: "backend", color: "#B78AFF" },
-    { emoji: "🌐", name: "browser", color: "#3DDC97" },
-    { emoji: "👑", name: "lead", color: "#E4D947" },
-  ];
-
+function FeatureImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="bg-bg-elev rounded-xl border border-border overflow-hidden">
-      {/* Title bar */}
-      <div className="h-6 bg-bg-elev-2 border-b border-border flex items-center px-3 gap-1.5">
-        <div className="w-2.5 h-2.5 rounded-full bg-danger/80" />
-        <div className="w-2.5 h-2.5 rounded-full bg-accent/80" />
-        <div className="w-2.5 h-2.5 rounded-full bg-ok/80" />
-      </div>
-      {/* Panes */}
-      <div className="grid grid-cols-2 gap-2 p-2">
-        {panes.map((pane, idx) => (
-          <motion.div
-            key={idx}
-            className="bg-bg rounded-lg border border-border p-3 h-24"
-            initial={{ borderColor: "var(--border)" }}
-            whileHover={{ borderColor: pane.color }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="flex items-center gap-1.5 mb-2">
-              <span className="text-sm">{pane.emoji}</span>
-              <span className="text-xs font-mono text-muted">{pane.name}</span>
-            </div>
-            <div className="space-y-1">
-              <div className="h-2 bg-bg-elev-2 rounded w-full" />
-              <div className="h-2 bg-bg-elev-2 rounded w-3/4" />
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      <Image
+        src={src}
+        alt={alt}
+        width={800}
+        height={500}
+        className="w-full h-auto"
+      />
     </div>
+  );
+}
+
+function MultiPaneVisual() {
+  return (
+    <FeatureImage
+      src="/multi-pane-workspace.png"
+      alt="Multi-pane workspace showing multiple agents working in parallel"
+    />
   );
 }
 
 function WorkersTabVisual() {
-  const agents = [
-    { emoji: "🎨", name: "frontend-developer" },
-    { emoji: "⚙️", name: "backend-developer" },
-    { emoji: "👑", name: "lead-agent" },
-  ];
-  const tools = [
-    { icon: "◆", name: "Claude Code" },
-    { icon: "▲", name: "Aider" },
-    { icon: "●", name: "Shell" },
-  ];
-
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden">
-      <div className="p-4 space-y-4">
-        <div>
-          <div className="text-xs font-mono text-accent mb-2 uppercase tracking-wider">
-            Agents
-          </div>
-          <div className="space-y-2">
-            {agents.map((agent, idx) => (
-              <motion.div
-                key={idx}
-                className="flex items-center gap-2 p-2 rounded-lg bg-bg border border-border hover:border-accent/50 transition-colors cursor-pointer"
-                whileHover={{ x: 4 }}
-              >
-                <span>{agent.emoji}</span>
-                <span className="text-sm text-text-dim">{agent.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <div className="text-xs font-mono text-accent-2 mb-2 uppercase tracking-wider">
-            CLI Tools
-          </div>
-          <div className="space-y-2">
-            {tools.map((tool, idx) => (
-              <motion.div
-                key={idx}
-                className="flex items-center gap-2 p-2 rounded-lg bg-bg border border-border hover:border-accent-2/50 transition-colors cursor-pointer"
-                whileHover={{ x: 4 }}
-              >
-                <span className="text-accent-2">{tool.icon}</span>
-                <span className="text-sm text-text-dim">{tool.name}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+    <FeatureImage
+      src="/workers-tab.png"
+      alt="Workers tab showing agents and CLI tools"
+    />
   );
 }
 
 function FlowVisual() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <div
-      ref={ref}
-      className="bg-bg-elev rounded-xl border border-border overflow-hidden p-6"
-    >
-      <div className="relative flex items-center justify-between">
-        {/* Cards */}
-        {["Extract", "Transform", "Load"].map((label, idx) => (
-          <motion.div
-            key={idx}
-            className="relative z-10 w-24 p-3 bg-bg rounded-lg border border-border text-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: idx * 0.2, duration: 0.4 }}
-          >
-            <div className="text-xs font-mono text-muted mb-1">0{idx + 1}</div>
-            <div className="text-sm text-text">{label}</div>
-            {idx < 2 && (
-              <motion.div
-                className="absolute -right-10 top-1/2 w-8 h-0.5 bg-accent"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ delay: 0.5 + idx * 0.3, duration: 0.3 }}
-                style={{ originX: 0 }}
-              />
-            )}
-          </motion.div>
-        ))}
-      </div>
-      <motion.div
-        className="mt-4 flex justify-center"
-        initial={{ opacity: 0 }}
-        animate={isInView ? { opacity: 1 } : {}}
-        transition={{ delay: 1.2 }}
-      >
-        <div className="px-3 py-1.5 rounded-full bg-ok/20 text-ok text-xs font-mono">
-          ▶ Run Flow
-        </div>
-      </motion.div>
-    </div>
+    <FeatureImage
+      src="/flow.png"
+      alt="Flow canvas showing agent pipeline workflow"
+    />
   );
 }
 
 function DiffReviewVisual() {
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden">
-      <div className="p-4 font-mono text-xs">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-muted">src/components/Button.tsx</span>
-        </div>
-        <div className="space-y-1">
-          <div className="flex">
-            <span className="w-8 text-muted text-right pr-2">12</span>
-            <span className="flex-1 bg-danger/10 text-danger px-2 rounded-l">
-              - const Button = (props) =&gt; {"{"}
-            </span>
-          </div>
-          <div className="flex">
-            <span className="w-8 text-muted text-right pr-2">12</span>
-            <span className="flex-1 bg-ok/10 text-ok px-2 rounded-l">
-              + const Button: FC&lt;Props&gt; = ({"{"} label {"}"}) =&gt; {"{"}
-            </span>
-          </div>
-        </div>
-        <div className="mt-4 flex gap-2">
-          <button className="px-3 py-1 rounded bg-ok/20 text-ok text-xs">
-            Accept
-          </button>
-          <button className="px-3 py-1 rounded bg-danger/20 text-danger text-xs">
-            Reject
-          </button>
-        </div>
-      </div>
-    </div>
+    <FeatureImage
+      src="/diff-review.png"
+      alt="Diff review interface with side-by-side comparison"
+    />
   );
 }
 
 function LeadModeVisual() {
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden">
-      <div className="p-4">
-        {/* Lead pane */}
-        <div className="mb-3 p-3 bg-bg rounded-lg border-2 border-accent">
-          <div className="flex items-center gap-2 mb-2">
-            <span>👑</span>
-            <span className="text-sm font-mono text-accent">lead-agent</span>
-          </div>
-          <div className="text-xs text-text-dim">
-            Coordinating 3 subagents...
-          </div>
-        </div>
-        {/* Subagent panes */}
-        <div className="grid grid-cols-3 gap-2">
-          {["🎨", "⚙️", "🧪"].map((emoji, idx) => (
-            <div
-              key={idx}
-              className="p-2 bg-bg rounded border border-border text-center"
-            >
-              <span>{emoji}</span>
-              <div className="w-1.5 h-1.5 rounded-full bg-ok mx-auto mt-1" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    <FeatureImage
+      src="/lead-mode.png"
+      alt="Lead mode with orchestrator agent managing subagents"
+    />
   );
 }
 
 function VoiceVisual() {
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden p-6 flex flex-col items-center">
-      <motion.div
-        className="w-20 h-20 rounded-full bg-gradient-to-br from-accent to-accent-2 flex items-center justify-center orb-pulse"
-        animate={{
-          scale: [1, 1.05, 1],
-          boxShadow: [
-            "0 0 20px rgba(228, 217, 71, 0.3)",
-            "0 0 40px rgba(228, 217, 71, 0.5)",
-            "0 0 20px rgba(228, 217, 71, 0.3)",
-          ],
-        }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <span className="text-2xl">🎙</span>
-      </motion.div>
-      <div className="mt-4 text-sm text-text-dim text-center">
-        &quot;Spin up a frontend agent on this folder&quot;
-      </div>
-    </div>
+    <FeatureImage
+      src="/voice.png"
+      alt="Voice interface for controlling agents"
+    />
   );
 }
 
 function MissionControlVisual() {
-  const projects = [
-    { name: "web-app", agents: 3, status: "active" },
-    { name: "api-server", agents: 2, status: "idle" },
-  ];
-
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden p-4">
-      <div className="text-xs font-mono text-muted mb-3">
-        ⌘⇧M Mission Control
-      </div>
-      <div className="space-y-2">
-        {projects.map((project, idx) => (
-          <motion.div
-            key={idx}
-            className="p-3 bg-bg rounded-lg border border-border cursor-pointer"
-            whileHover={{ borderColor: "var(--accent)" }}
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-text">{project.name}</span>
-              <span
-                className={`text-xs ${project.status === "active" ? "text-ok" : "text-muted"}`}
-              >
-                {project.agents} agents
-              </span>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
+    <FeatureImage
+      src="/mission-control.png"
+      alt="Mission Control showing all projects and agents"
+    />
   );
 }
 
@@ -388,6 +200,28 @@ const features: Feature[] = [
   },
 ];
 
+function FeatureText({ feature }: { feature: Feature }) {
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="font-mono text-xs text-accent">{feature.number}</span>
+        <span className="text-muted text-xs">/</span>
+        <span className="font-mono text-xs text-muted">{feature.tag}</span>
+      </div>
+      <h3 className="font-display text-2xl lg:text-3xl xl:text-4xl text-text leading-tight">
+        {feature.headline}
+      </h3>
+      <div className="space-y-3">
+        {feature.body.map((paragraph, idx) => (
+          <p key={idx} className="text-sm text-text-dim leading-relaxed">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function FeatureBlock({
   feature,
   index,
@@ -395,43 +229,30 @@ function FeatureBlock({
   feature: Feature;
   index: number;
 }) {
-  const isEven = index % 2 === 0;
+  const isImageRight = index % 2 === 0;
 
+  if (isImageRight) {
+    // Text left, Image right
+    return (
+      <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8 lg:gap-12 items-center">
+        <ScrollReveal direction="left">
+          <FeatureText feature={feature} />
+        </ScrollReveal>
+        <ScrollReveal direction="right" delay={0.2}>
+          {feature.visual}
+        </ScrollReveal>
+      </div>
+    );
+  }
+
+  // Image left, Text right
   return (
-    <div
-      className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center ${!isEven ? "lg:flex-row-reverse" : ""}`}
-    >
-      {/* Text */}
-      <ScrollReveal
-        className={`space-y-6 ${!isEven ? "lg:order-2" : ""}`}
-        direction={isEven ? "left" : "right"}
-      >
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-sm text-accent">
-            {feature.number}
-          </span>
-          <span className="text-muted">/</span>
-          <span className="font-mono text-sm text-muted">{feature.tag}</span>
-        </div>
-        <h3 className="font-display text-3xl lg:text-4xl xl:text-5xl text-text">
-          {feature.headline}
-        </h3>
-        <div className="space-y-4">
-          {feature.body.map((paragraph, idx) => (
-            <p key={idx} className="text-text-dim leading-relaxed">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-      </ScrollReveal>
-
-      {/* Visual */}
-      <ScrollReveal
-        className={!isEven ? "lg:order-1" : ""}
-        direction={isEven ? "right" : "left"}
-        delay={0.2}
-      >
+    <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-12 items-center">
+      <ScrollReveal direction="left" delay={0.2}>
         {feature.visual}
+      </ScrollReveal>
+      <ScrollReveal direction="right">
+        <FeatureText feature={feature} />
       </ScrollReveal>
     </div>
   );

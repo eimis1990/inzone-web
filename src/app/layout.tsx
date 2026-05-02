@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Squada_One, Inter, JetBrains_Mono } from "next/font/google";
+import KofiWidget from "@/components/KofiWidget";
 import "./globals.css";
 
 const squadaOne = Squada_One({
@@ -114,6 +115,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-bg text-text antialiased">
         {children}
+        <KofiWidget />
       </body>
     </html>
   );

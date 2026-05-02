@@ -109,10 +109,10 @@ body {
 
 /* Grid background pattern */
 .bg-grid {
-  background-image:
-    radial-gradient(circle at 1px 1px, var(--muted) 1px, transparent 0);
-  background-size: 32px 32px;
-  opacity: 0.3;
+  background-image: url('/sidebar-pattern.svg');
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0.15;
 }
 
 /* Glow effects */
@@ -262,3 +262,12 @@ body {
 .stagger-children > *:nth-child(3) { animation-delay: 200ms; }
 .stagger-children > *:nth-child(4) { animation-delay: 300ms; }
 .stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+
+/* Ko-fi widget fix - prevent cutoff */
+.floatingchat-container-wrap {
+  right: 20px !important;
+}
+
+.floatingchat-container-wrap-mo498 {
+  right: 20px !important;
+}

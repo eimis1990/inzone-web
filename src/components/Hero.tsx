@@ -32,7 +32,7 @@ export default function Hero() {
       >
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left column - Text */}
-          <div className="space-y-8">
+          <div className="space-y-5">
             {/* Eyebrow */}
             <motion.div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-elev border border-border"
@@ -47,7 +47,7 @@ export default function Hero() {
 
             {/* Headline */}
             <motion.h1
-              className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-text"
+              className="font-display text-5xl sm:text-6xl lg:text-6xl xl:text-7xl text-text leading-[1.1]"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -62,7 +62,7 @@ export default function Hero() {
 
             {/* Subheadline */}
             <motion.p
-              className="text-lg lg:text-xl text-text-dim max-w-xl leading-relaxed"
+              className="text-base lg:text-lg text-text-dim max-w-lg leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -79,6 +79,7 @@ export default function Hero() {
 
             {/* CTA Buttons */}
             <motion.div
+              className="pt-2"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
