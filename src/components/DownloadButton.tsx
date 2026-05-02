@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-type Platform = "apple-silicon" | "intel" | "other";
+type Platform = "mac" | "other";
 
 function AppleLogo({ className }: { className?: string }) {
   return (
@@ -31,63 +31,115 @@ function GitHubLogo({ className }: { className?: string }) {
   );
 }
 
+function ChipIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="4" y="4" width="16" height="16" rx="2" />
+      <rect x="9" y="9" width="6" height="6" />
+      <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+    </svg>
+  );
+}
+
 export default function DownloadButton() {
-  const [platform, setPlatform] = useState<Platform>("apple-silicon");
+  const [platform, setPlatform] = useState<Platform>("mac");
+  const [isAppleSilicon, setIsAppleSilicon] = useState(true);
 
   useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.includes("mac")) {
-      // Check for Apple Silicon indicators
-      // Note: This is a simplified check; actual detection may vary
-      if (
-        userAgent.includes("arm") ||
-        navigator.platform === "MacIntel" // Modern browsers on M1+ still report MacIntel
-      ) {
-        setPlatform("apple-silicon");
-      } else {
-        setPlatform("apple-silicon"); // Default to Apple Silicon for newer Macs
-      }
-    } else {
+    const userAgent = navigator.userAgent;
+
+    // Check if macOS
+    if (!userAgent.includes("Mac")) {
       setPlatform("other");
+      return;
     }
+
+    // Attempt to detect Apple Silicon
+    // Note: This is imperfect - Safari on Apple Silicon often reports as Intel
+    // We default to Apple Silicon since most new Macs are M-series
+    const isLikelyAppleSilicon =
+      /Macintosh.*Apple/i.test(userAgent) ||
+      // @ts-expect-error - userAgentData is not in all browsers
+      navigator.userAgentData?.platform === "macOS";
+
+    setIsAppleSilicon(isLikelyAppleSilicon);
   }, []);
 
-  const downloadLabel =
-    platform === "other"
-      ? "macOS only — view source on GitHub"
-      : platform === "intel"
-        ? "Download for Intel Mac"
-        : "Download for Apple Silicon";
-
-  const downloadHref =
-    platform === "other"
-      ? "https://github.com/eimis1990/inzone"
-      : platform === "intel"
-        ? "/downloads/INZONE-intel.dmg"
-        : "/downloads/INZONE-arm64.dmg";
+  // Non-macOS users
+  if (platform === "other") {
+    return (
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <motion.a
+          href="https://github.com/eimis1990/inzone"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 bg-bg-elev-2 text-text-dim font-semibold rounded-lg border border-border transition-all hover:border-accent/50"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <AppleLogo className="w-5 h-5" />
+          <span>macOS only — view source on GitHub</span>
+        </motion.a>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-4">
-      <motion.a
-        href={downloadHref}
-        className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 bg-accent text-accent-on font-semibold rounded-lg transition-all hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <AppleLogo className="w-5 h-5" />
-        <span>{downloadLabel}</span>
-      </motion.a>
+    <div className="flex flex-col gap-4">
+      {/* Primary download buttons */}
+      <div className="flex flex-col sm:flex-row items-center gap-3">
+        {/* Apple Silicon - Primary */}
+        <motion.a
+          href="/api/download?arch=arm64"
+          className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
+            isAppleSilicon
+              ? "bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+              : "bg-bg-elev text-text border border-border hover:border-accent/50"
+          }`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <AppleLogo className="w-5 h-5" />
+          <span>Download for Apple Silicon</span>
+        </motion.a>
 
+        {/* Intel Mac - Secondary */}
+        <motion.a
+          href="/api/download?arch=x64"
+          className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
+            !isAppleSilicon
+              ? "bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+              : "bg-bg-elev text-text border border-border hover:border-accent/50"
+          }`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <ChipIcon className="w-5 h-5" />
+          <span>Download for Intel Mac</span>
+        </motion.a>
+      </div>
+
+      {/* GitHub link */}
       <motion.a
         href="https://github.com/eimis1990/inzone"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 px-5 py-3 text-text-dim hover:text-text transition-colors group"
+        className="inline-flex items-center gap-2 text-text-dim hover:text-text transition-colors group self-center sm:self-start"
         whileHover={{ x: 4 }}
       >
         <GitHubLogo className="w-5 h-5" />
         <span>View on GitHub</span>
-        <span className="transition-transform group-hover:translate-x-1">→</span>
+        <span className="transition-transform group-hover:translate-x-1">
+          →
+        </span>
       </motion.a>
     </div>
   );
