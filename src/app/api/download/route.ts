@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
         next: { revalidate: 600 }, // cache 10 min on Vercel edge
         headers: {
           Accept: "application/vnd.github.v3+json",
-          // Add User-Agent to avoid GitHub API rate limiting
           "User-Agent": "INZONE-Website",
         },
       }
@@ -40,34 +39,18 @@ export async function GET(req: NextRequest) {
       return new Response("No assets found in latest release", { status: 404 });
     }
 
-    // Find the right DMG based on architecture
-    // arm64 builds typically have -arm64.dmg suffix
-    // x64/Intel builds typically have just .dmg or -x64.dmg
-    let asset: GitHubAsset | undefined;
-
-    if (arch === "arm64") {
-      // Look for arm64-specific DMG first
-      asset = release.assets.find(
-        (a) => a.name.endsWith("-arm64.dmg") || a.name.includes("arm64")
-      );
-    } else {
-      // For x64/Intel, look for x64 specific or generic DMG (not arm64)
-      asset = release.assets.find(
-        (a) =>
-          (a.name.endsWith(".dmg") || a.name.endsWith("-x64.dmg")) &&
-          !a.name.includes("arm64")
-      );
-    }
-
-    // Fallback: if no arch-specific DMG found, try to find any DMG
-    if (!asset) {
-      asset = release.assets.find((a) => a.name.endsWith(".dmg"));
-    }
+    // Find the matching mac zip for the requested arch.
+    // arm64 zip name contains "arm64-mac.zip" (e.g., INzone-1.0.0-arm64-mac.zip)
+    // x64 zip name is "*-mac.zip" but does NOT contain "arm64" (e.g., INzone-1.0.0-mac.zip)
+    const wantArm64 = arch === "arm64";
+    const asset = release.assets.find((a) => {
+      const isMacZip = a.name.endsWith("-mac.zip");
+      const isArm64 = a.name.includes("arm64");
+      return isMacZip && isArm64 === wantArm64;
+    });
 
     if (!asset) {
-      return new Response(`No DMG found for architecture: ${arch}`, {
-        status: 404,
-      });
+      return new Response(`No build found for arch=${arch}`, { status: 404 });
     }
 
     // Redirect to the actual download URL
