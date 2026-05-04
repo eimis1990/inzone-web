@@ -66,6 +66,7 @@ function ChipIcon({ className }: { className?: string }) {
 export default function DownloadButton() {
   const [platform, setPlatform] = useState<Platform>("mac");
   const [isAppleSilicon, setIsAppleSilicon] = useState(true);
+  const [version, setVersion] = useState<string | null>(null);
 
   useEffect(() => {
     const userAgent = navigator.userAgent;
@@ -88,6 +89,18 @@ export default function DownloadButton() {
 
       setIsAppleSilicon(isLikelyAppleSilicon);
     }
+
+    // Fetch version on mount
+    fetch("/api/version")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.version) {
+          setVersion(data.version);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch version:", err);
+      });
   }, []);
 
   // Windows users
@@ -102,7 +115,12 @@ export default function DownloadButton() {
           whileTap={{ scale: 0.98 }}
         >
           <WindowsLogo className="w-5 h-5" />
-          <span>Download for Windows</span>
+          <div className="flex flex-col items-start">
+            <span>Download for Windows</span>
+            {version && (
+              <span className="text-xs opacity-80">v{version}</span>
+            )}
+          </div>
         </motion.a>
       </div>
     );
@@ -120,7 +138,12 @@ export default function DownloadButton() {
           whileTap={{ scale: 0.98 }}
         >
           <LinuxLogo className="w-5 h-5" />
-          <span>Download for Linux</span>
+          <div className="flex flex-col items-start">
+            <span>Download for Linux</span>
+            {version && (
+              <span className="text-xs opacity-80">v{version}</span>
+            )}
+          </div>
         </motion.a>
       </div>
     );
@@ -142,7 +165,12 @@ export default function DownloadButton() {
         whileTap={{ scale: 0.98 }}
       >
         <AppleLogo className="w-5 h-5" />
-        <span>Download for Apple Silicon</span>
+        <div className="flex flex-col items-start">
+          <span>Download for Apple Silicon</span>
+          {version && (
+            <span className="text-xs opacity-80">v{version}</span>
+          )}
+        </div>
       </motion.a>
 
       {/* Intel Mac - Secondary */}
@@ -158,7 +186,12 @@ export default function DownloadButton() {
         whileTap={{ scale: 0.98 }}
       >
         <ChipIcon className="w-5 h-5" />
-        <span>Download for Intel Mac</span>
+        <div className="flex flex-col items-start">
+          <span>Download for Intel Mac</span>
+          {version && (
+            <span className="text-xs opacity-80">v{version}</span>
+          )}
+        </div>
       </motion.a>
     </div>
   );
