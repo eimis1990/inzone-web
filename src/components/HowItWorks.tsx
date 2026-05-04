@@ -71,31 +71,6 @@ export default function HowItWorks() {
           ))}
         </StaggerContainer>
 
-        {/* Demo video placeholder */}
-        <ScrollReveal delay={0.3}>
-          <div className="relative max-w-4xl mx-auto aspect-video rounded-xl overflow-hidden border border-border bg-bg-elev">
-            {/* Placeholder for demo video */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <motion.div
-                className="w-20 h-20 rounded-full bg-accent/20 flex items-center justify-center cursor-pointer"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="w-0 h-0 border-l-[20px] border-l-accent border-y-[12px] border-y-transparent ml-1" />
-              </motion.div>
-              <p className="mt-4 text-text-dim text-sm">
-                Watch the 30-second setup walkthrough
-              </p>
-            </div>
-
-            {/* Decorative elements */}
-            <div className="absolute top-4 left-4 flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-danger/60" />
-              <div className="w-3 h-3 rounded-full bg-accent/60" />
-              <div className="w-3 h-3 rounded-full bg-ok/60" />
-            </div>
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );
