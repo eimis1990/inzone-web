@@ -12,7 +12,8 @@ interface GitHubRelease {
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
-  const arch = url.searchParams.get("arch") ?? "arm64";
+  const os = url.searchParams.get("os") ?? "mac"; // 'mac' | 'win' | 'linux'
+  const arch = url.searchParams.get("arch") ?? "arm64"; // 'arm64' | 'x64' | 'amd64'
 
   try {
     const response = await fetch(
@@ -39,18 +40,40 @@ export async function GET(req: NextRequest) {
       return new Response("No assets found in latest release", { status: 404 });
     }
 
-    // Find the matching mac zip for the requested arch.
-    // arm64 zip name contains "arm64-mac.zip" (e.g., INzone-1.0.0-arm64-mac.zip)
-    // x64 zip name is "*-mac.zip" but does NOT contain "arm64" (e.g., INzone-1.0.0-mac.zip)
-    const wantArm64 = arch === "arm64";
-    const asset = release.assets.find((a) => {
-      const isMacZip = a.name.endsWith("-mac.zip");
-      const isArm64 = a.name.includes("arm64");
-      return isMacZip && isArm64 === wantArm64;
-    });
+    // Find the matching asset based on OS and architecture
+    let asset: GitHubAsset | undefined;
+
+    if (os === "mac") {
+      // Mac: *-mac.zip
+      // arm64 zip name contains "arm64-mac.zip" (e.g., INzone-1.0.0-arm64-mac.zip)
+      // x64 zip name is "*-mac.zip" but does NOT contain "arm64" (e.g., INzone-1.0.0-mac.zip)
+      const wantArm64 = arch === "arm64";
+      asset = release.assets.find((a) => {
+        const isMacZip = a.name.endsWith("-mac.zip");
+        const isArm64 = a.name.includes("arm64");
+        return isMacZip && isArm64 === wantArm64;
+      });
+    } else if (os === "win") {
+      // Windows: Prefer *Setup*.exe (installer), fallback to *.exe (portable)
+      const setupExe = release.assets.find(
+        (a) => a.name.includes("Setup") && a.name.endsWith(".exe")
+      );
+      const portableExe = release.assets.find(
+        (a) => !a.name.includes("Setup") && a.name.endsWith(".exe")
+      );
+      asset = setupExe || portableExe;
+    } else if (os === "linux") {
+      // Linux: Prefer *.AppImage, fallback to *.deb
+      // Also handle arch if provided (amd64)
+      const appImage = release.assets.find((a) => a.name.endsWith(".AppImage"));
+      const deb = release.assets.find((a) => a.name.endsWith(".deb"));
+      asset = appImage || deb;
+    }
 
     if (!asset) {
-      return new Response(`No build found for arch=${arch}`, { status: 404 });
+      return new Response(`No build found for os=${os}, arch=${arch}`, {
+        status: 404,
+      });
     }
 
     // Redirect to the actual download URL

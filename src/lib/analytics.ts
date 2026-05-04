@@ -14,6 +14,14 @@ export const trackEvent = {
     track("download_intel_mac");
   },
 
+  downloadWindows: () => {
+    track("download_windows");
+  },
+
+  downloadLinux: () => {
+    track("download_linux");
+  },
+
   // Ko-fi widget interactions
   kofiWidgetClick: () => {
     track("kofi_widget_click");

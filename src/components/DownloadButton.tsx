@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { trackEvent } from "@/lib/analytics";
 
-type Platform = "mac" | "other";
+type Platform = "mac" | "windows" | "linux";
 
 function AppleLogo({ className }: { className?: string }) {
   return (
@@ -15,6 +15,32 @@ function AppleLogo({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" />
+    </svg>
+  );
+}
+
+function WindowsLogo({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3 5.45V10.8H10.2V4.2L3 5.45ZM10.2 19.8L3 18.55V13.2H10.2V19.8ZM11.4 19.95L21 21.45V13.2H11.4V19.95ZM21 2.55L11.4 4.05V10.8H21V2.55Z" />
+    </svg>
+  );
+}
+
+function LinuxLogo({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.84-.41 1.738-.348 2.656.145 1.701.945 3.094 2.09 4.143.665.61 1.453 1.043 2.317 1.197 1.726.305 3.567-.38 5.019-1.487.575-.439 1.124-.984 1.668-1.581.543.597 1.092 1.142 1.668 1.581 1.452 1.107 3.293 1.792 5.019 1.487.864-.154 1.652-.587 2.317-1.197 1.145-1.049 1.945-2.442 2.09-4.143.062-.918-.07-1.816-.348-2.656-.589-1.771-1.831-3.47-2.716-4.521-.75-1.067-.974-1.928-1.05-3.02-.065-1.491 1.056-5.965-3.17-6.298-.165-.013-.325-.021-.48-.021zm-5.783 13.659c-.038.06-.08.118-.127.174-.09.106-.194.208-.314.307-.12.099-.259.19-.417.272-.158.082-.338.146-.539.19-.201.044-.426.066-.675.066-.249 0-.474-.022-.675-.066-.201-.044-.381-.108-.539-.19-.158-.082-.297-.173-.417-.272-.12-.099-.224-.201-.314-.307-.047-.056-.089-.114-.127-.174.038-.06.08-.118.127-.174.09-.106.194-.208.314-.307.12-.099.259-.19.417-.272.158-.082.338-.146.539-.19.201-.044.426-.066.675-.066.249 0 .474.022.675.066.201.044.381.108.539.19.158.082.297.173.417.272.12.099.224.201.314.307.047.056.089.114.127.174zm11.559 0c-.038.06-.08.118-.127.174-.09.106-.194.208-.314.307-.12.099-.259.19-.417.272-.158.082-.338.146-.539.19-.201.044-.426.066-.675.066-.249 0-.474-.022-.675-.066-.201-.044-.381-.108-.539-.19-.158-.082-.297-.173-.417-.272-.12-.099-.224-.201-.314-.307-.047-.056-.089-.114-.127-.174.038-.06.08-.118.127-.174.09-.106.194-.208.314-.307.12-.099.259-.19.417-.272.158-.082.338-.146.539-.19.201-.044.426-.066.675-.066.249 0 .474.022.675.066.201.044.381.108.539.19.158.082.297.173.417.272.12.099.224.201.314.307.047.056.089.114.127.174z" />
     </svg>
   );
 }
@@ -44,40 +70,68 @@ export default function DownloadButton() {
   useEffect(() => {
     const userAgent = navigator.userAgent;
 
-    // Check if macOS
-    if (!userAgent.includes("Mac")) {
-      setPlatform("other");
-      return;
+    // Detect platform
+    if (userAgent.includes("Win")) {
+      setPlatform("windows");
+    } else if (userAgent.includes("Linux")) {
+      setPlatform("linux");
+    } else if (userAgent.includes("Mac")) {
+      setPlatform("mac");
+
+      // Attempt to detect Apple Silicon
+      // Note: This is imperfect - Safari on Apple Silicon often reports as Intel
+      // We default to Apple Silicon since most new Macs are M-series
+      const isLikelyAppleSilicon =
+        /Macintosh.*Apple/i.test(userAgent) ||
+        // @ts-expect-error - userAgentData is not in all browsers
+        navigator.userAgentData?.platform === "macOS";
+
+      setIsAppleSilicon(isLikelyAppleSilicon);
     }
-
-    // Attempt to detect Apple Silicon
-    // Note: This is imperfect - Safari on Apple Silicon often reports as Intel
-    // We default to Apple Silicon since most new Macs are M-series
-    const isLikelyAppleSilicon =
-      /Macintosh.*Apple/i.test(userAgent) ||
-      // @ts-expect-error - userAgentData is not in all browsers
-      navigator.userAgentData?.platform === "macOS";
-
-    setIsAppleSilicon(isLikelyAppleSilicon);
   }, []);
 
-  // Non-macOS users
-  if (platform === "other") {
+  // Windows users
+  if (platform === "windows") {
     return (
-      <div className="flex flex-col sm:flex-row items-center gap-4">
-        <div className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-bg-elev-2 text-text-dim font-semibold rounded-lg border border-border">
-          <AppleLogo className="w-5 h-5" />
-          <span>macOS only</span>
-        </div>
+      <div className="flex flex-col sm:flex-row items-center gap-3">
+        <motion.a
+          href="/api/download?os=win"
+          onClick={() => trackEvent.downloadWindows()}
+          className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <WindowsLogo className="w-5 h-5" />
+          <span>Download for Windows</span>
+        </motion.a>
       </div>
     );
   }
 
+  // Linux users
+  if (platform === "linux") {
+    return (
+      <div className="flex flex-col sm:flex-row items-center gap-3">
+        <motion.a
+          href="/api/download?os=linux"
+          onClick={() => trackEvent.downloadLinux()}
+          className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <LinuxLogo className="w-5 h-5" />
+          <span>Download for Linux</span>
+        </motion.a>
+      </div>
+    );
+  }
+
+  // macOS users - show both Apple Silicon and Intel options
   return (
     <div className="flex flex-col sm:flex-row items-center gap-3">
       {/* Apple Silicon - Primary */}
       <motion.a
-        href="/api/download?arch=arm64"
+        href="/api/download?os=mac&arch=arm64"
         onClick={() => trackEvent.downloadAppleSilicon()}
         className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
           isAppleSilicon
@@ -93,7 +147,7 @@ export default function DownloadButton() {
 
       {/* Intel Mac - Secondary */}
       <motion.a
-        href="/api/download?arch=x64"
+        href="/api/download?os=mac&arch=x64"
         onClick={() => trackEvent.downloadIntelMac()}
         className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
           !isAppleSilicon
