@@ -106,22 +106,73 @@ export default function DownloadButton() {
   // Windows users
   if (platform === "windows") {
     return (
-      <div className="flex flex-col sm:flex-row items-center gap-3">
-        <motion.a
-          href="/api/download?os=win"
-          onClick={() => trackEvent.downloadWindows()}
-          className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+      <div className="flex flex-col gap-4 max-w-2xl">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <motion.a
+            href="/api/download?os=win"
+            onClick={() => trackEvent.downloadWindows()}
+            className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <WindowsLogo className="w-5 h-5" />
+            <div className="flex flex-col items-start">
+              <span>Download for Windows</span>
+              {version && (
+                <span className="text-xs opacity-80">v{version}</span>
+              )}
+            </div>
+          </motion.a>
+        </div>
+
+        {/* Windows SmartScreen Warning */}
+        <motion.div
+          className="relative px-4 py-3.5 rounded-lg bg-amber-500/10 border border-amber-500/30"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <WindowsLogo className="w-5 h-5" />
-          <div className="flex flex-col items-start">
-            <span>Download for Windows</span>
-            {version && (
-              <span className="text-xs opacity-80">v{version}</span>
-            )}
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 mt-0.5">
+              <svg
+                className="w-5 h-5 text-amber-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            </div>
+            <div className="flex-1 space-y-1.5">
+              <h3 className="text-sm font-semibold text-amber-500">
+                Windows SmartScreen Warning Expected
+              </h3>
+              <p className="text-sm text-text-dim leading-relaxed">
+                Windows will show a "Windows protected your PC" warning because
+                INzone is{" "}
+                <a
+                  href="https://github.com/inzoneapp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-accent transition-colors"
+                >
+                  open-source
+                </a>{" "}
+                and we don't purchase an Extended Validation (EV) Code Signing
+                Certificate ($300-500/year). This warning appears for new,
+                unrecognized applications.
+              </p>
+              <p className="text-sm text-amber-400 font-medium">
+                To install: Click "More info" → "Run anyway"
+              </p>
+            </div>
           </div>
-        </motion.a>
+        </motion.div>
       </div>
     );
   }
