@@ -1,40 +1,55 @@
 "use client";
 
-import ScrollReveal, { StaggerContainer } from "./ScrollReveal";
+import ScrollReveal from "./ScrollReveal";
+import { motion } from "framer-motion";
 
 const stats = [
-  { value: "5+", label: "starter agents bundled" },
-  { value: "8", label: "starter skills bundled" },
-  { value: "4", label: "CLI tools as workers" },
-  { value: "0", label: "telemetry, accounts, lock-in" },
+  { value: "5+", label: "STARTER AGENTS BUNDLED" },
+  { value: "8", label: "STARTER SKILLS BUNDLED" },
+  { value: "4", label: "CLI TOOLS AS WORKERS" },
+  { value: "0", label: "TELEMETRY, ACCOUNTS, LOCK-IN" },
 ];
+
+export function StatsBar() {
+  return (
+    <motion.div
+      className="relative z-20 max-w-5xl mx-auto px-6 -mt-[50px]"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+    >
+      <div className="flex items-stretch rounded-2xl bg-surface-1/80 backdrop-blur-xl border border-hairline overflow-hidden">
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className={`flex-1 py-6 px-6 lg:px-8 text-center ${
+              index !== stats.length - 1 ? "border-r border-hairline" : ""
+            }`}
+          >
+            <div className="font-display text-2xl lg:text-3xl font-medium text-ink tracking-tight mb-1">
+              {stat.value}
+            </div>
+            <div className="caption uppercase tracking-[0.12em] text-ink-muted">
+              {stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function ValueProp() {
   return (
-    <section className="relative py-24 lg:py-32 border-t border-border">
+    <section className="relative pt-16 pb-24 lg:pt-20 lg:pb-32">
       <div className="max-w-7xl mx-auto px-6">
-        {/* Stats grid */}
-        <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-16">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center p-6 rounded-xl bg-bg-elev/50 border border-border card-hover"
-            >
-              <div className="font-display text-5xl lg:text-6xl text-accent mb-2">
-                {stat.value}
-              </div>
-              <div className="text-sm text-text-dim">{stat.label}</div>
-            </div>
-          ))}
-        </StaggerContainer>
-
-        {/* Central message */}
-        <ScrollReveal className="max-w-3xl mx-auto text-center" delay={0.2}>
-          <p className="text-2xl lg:text-3xl text-text leading-relaxed">
+        {/* Central message - manifesto paragraph */}
+        <ScrollReveal className="max-w-[720px] mx-auto text-center" delay={0.2}>
+          <p className="subhead text-ink-muted leading-relaxed">
             Built for developers who use Claude as a teammate, not a tab. Run
             several agents in parallel, chain them into pipelines, review their
             diffs in-app, ship with one click.{" "}
-            <span className="text-accent">
+            <span className="text-ink">
               Your folder, your subscription, your machine.
             </span>
           </p>

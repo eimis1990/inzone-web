@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import ValueProp from "@/components/ValueProp";
+import ValueProp, { StatsBar } from "@/components/ValueProp";
 import Features from "@/components/Features";
 import HowItWorks from "@/components/HowItWorks";
 import Comparison from "@/components/Comparison";
@@ -10,6 +10,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Hero />
+      <StatsBar />
       <ValueProp />
       <Features />
       <HowItWorks />

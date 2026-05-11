@@ -2,8 +2,14 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import AnimatedPaneMock from "./AnimatedPaneMock";
 import DownloadButton from "./DownloadButton";
+
+// Dynamic import to avoid SSR issues with WebGL
+const ShaderBackground = dynamic(() => import("./ShaderBackground"), {
+  ssr: false,
+});
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -18,73 +24,72 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative h-screen flex items-center bg-canvas"
     >
-      {/* Background grid */}
-      <div className="absolute inset-0 bg-grid pointer-events-none" />
-
-      {/* Gradient glow */}
-      <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-accent/[0.06] blur-[120px] rounded-full pointer-events-none" />
+      {/* WebGL Shader Background */}
+      <ShaderBackground />
 
       <motion.div
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 lg:py-32"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 py-12 lg:py-20"
         style={{ opacity, y }}
       >
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left column - Text */}
-          <div className="space-y-5">
+          {/* Left column - Text - shifted up */}
+          <div className="space-y-6 lg:-mt-24">
             {/* Eyebrow */}
             <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-bg-elev border border-border"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-1 border border-hairline"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
             >
-              <span className="text-[11px] uppercase tracking-[0.1em] font-semibold text-accent">
-                MacOS · v1.0
+              <span className="caption uppercase tracking-[0.1em] text-[#E4D947]">
+                INZONE · V1.0
               </span>
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline - display-xxl with aggressive tracking */}
             <motion.h1
-              className="font-display text-5xl sm:text-6xl lg:text-6xl xl:text-7xl text-text leading-[1.1]"
-              initial={{ opacity: 0, y: 30 }}
+              className="font-display display-xxl text-ink"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
-                delay: 0.1,
+                duration: 0.6,
+                delay: 0.08,
                 ease: [0.22, 0.61, 0.36, 1],
               }}
             >
-              Run a fleet of AI agents.{" "}
-              <span className="text-accent">From one window.</span>
+              Run a fleet of
+              <br />
+              AI agents.
+              <br />
+              <span className="text-ink">From one window.</span>
             </motion.h1>
 
-            {/* Subheadline */}
+            {/* Subheadline - body-lg with ink-muted */}
             <motion.p
-              className="text-base lg:text-lg text-text-dim max-w-lg leading-relaxed"
-              initial={{ opacity: 0, y: 30 }}
+              className="body-lg text-ink-muted max-w-md"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
-                delay: 0.2,
+                duration: 0.6,
+                delay: 0.16,
                 ease: [0.22, 0.61, 0.36, 1],
               }}
             >
-              INZONE is a macOS app for orchestrating multiple Claude Agent SDK
-              sessions in a single window. Split panes, sequential pipelines,
-              voice control, in-app diff review and PR — designed for people who
-              want to delegate to several agents at once.
+              A macOS cockpit for orchestrating multiple Claude Agent SDK
+              sessions side-by-side. Multi-pane workspace, Flow pipelines,
+              voice control, in-app PR.
             </motion.p>
 
             {/* CTA Buttons */}
             <motion.div
-              className="pt-2"
-              initial={{ opacity: 0, y: 30 }}
+              className="pt-4"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.8,
-                delay: 0.3,
+                duration: 0.6,
+                delay: 0.24,
                 ease: [0.22, 0.61, 0.36, 1],
               }}
             >
@@ -95,34 +100,17 @@ export default function Hero() {
           {/* Right column - Animated Mock */}
           <motion.div
             className="relative lg:pl-8"
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
-              duration: 1,
-              delay: 0.4,
+              duration: 0.8,
+              delay: 0.32,
               ease: [0.22, 0.61, 0.36, 1],
             }}
           >
             <AnimatedPaneMock />
           </motion.div>
         </div>
-      </motion.div>
-
-      {/* Scroll cue */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 1 }}
-      >
-        <motion.div
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-bg-elev/50 backdrop-blur border border-border text-muted text-sm"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <span>↓</span>
-          <span>Scroll</span>
-        </motion.div>
       </motion.div>
     </section>
   );
