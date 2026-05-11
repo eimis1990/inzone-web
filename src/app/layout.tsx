@@ -1,15 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Squada_One, Inter, JetBrains_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import KofiWidget from "@/components/KofiWidget";
 import "./globals.css";
-
-const squadaOne = Squada_One({
-  weight: "400",
-  variable: "--font-squada-one",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0C0E12",
+  themeColor: "#090909",
   width: "device-width",
   initialScale: 1,
 };
@@ -86,7 +80,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${squadaOne.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${GeistSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <script
@@ -114,7 +108,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-bg text-text antialiased">
+      <body className="min-h-screen bg-canvas text-ink antialiased">
         {children}
         <KofiWidget />
         <Analytics />

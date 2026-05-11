@@ -16,7 +16,7 @@ const panes: Pane[] = [
     id: 0,
     emoji: "🎨",
     name: "frontend",
-    color: "#E4D947",
+    color: "#6A4CF5", // grad-violet
     content: [
       "Analyzing component structure...",
       "Creating responsive layout with CSS Grid",
@@ -28,7 +28,7 @@ const panes: Pane[] = [
     id: 1,
     emoji: "⚙️",
     name: "backend",
-    color: "#B78AFF",
+    color: "#D44DF0", // grad-magenta
     content: [
       "Setting up API routes...",
       "Adding authentication middleware",
@@ -40,7 +40,7 @@ const panes: Pane[] = [
     id: 2,
     emoji: "🌐",
     name: "browser",
-    color: "#3DDC97",
+    color: "#22C55E", // success
     content: [
       "Opening browser session...",
       "Navigating to test environment",
@@ -52,7 +52,7 @@ const panes: Pane[] = [
     id: 3,
     emoji: "👑",
     name: "lead",
-    color: "#E4D947",
+    color: "#0099FF", // accent
     content: [
       "Coordinating agent tasks...",
       "Reviewing frontend progress",
@@ -117,7 +117,7 @@ function PaneContent({ pane, isActive }: { pane: Pane; isActive: boolean }) {
           style={{ opacity: idx === lineIndex && isActive ? 1 : 0.5 }}
         >
           <span className="text-accent shrink-0">❯</span>
-          <span className="text-text-dim">
+          <span className="text-ink-muted">
             {idx === lineIndex && isActive ? (
               <TypewriterText text={line} isActive={true} />
             ) : (
@@ -169,7 +169,7 @@ export default function AnimatedPaneMock() {
   return (
     <motion.div
       ref={containerRef}
-      className="relative w-full max-w-2xl aspect-[4/3] perspective-1000"
+      className="relative w-full max-w-3xl aspect-[16/10] perspective-1000"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -179,39 +179,39 @@ export default function AnimatedPaneMock() {
       }}
     >
       {/* Window chrome */}
-      <div className="absolute inset-0 bg-bg-elev rounded-xl border border-border overflow-hidden shadow-2xl">
+      <div className="absolute inset-0 bg-surface-1 rounded-[16px] border border-hairline overflow-hidden shadow-2xl">
         {/* Title bar */}
-        <div className="h-8 bg-bg-elev-2 border-b border-border flex items-center px-3 gap-2">
+        <div className="h-8 bg-surface-2 border-b border-hairline flex items-center px-3 gap-2">
           <div className="flex gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-danger/80" />
-            <div className="w-3 h-3 rounded-full bg-accent/80" />
-            <div className="w-3 h-3 rounded-full bg-ok/80" />
+            <div className="w-3 h-3 rounded-full bg-error/80" />
+            <div className="w-3 h-3 rounded-full bg-warning/80" />
+            <div className="w-3 h-3 rounded-full bg-success/80" />
           </div>
           <div className="flex-1 text-center">
-            <span className="text-xs font-mono text-muted">INZONE — my-project</span>
+            <span className="text-xs font-mono text-ink-muted">INZONE — my-project</span>
           </div>
         </div>
 
         {/* Sidebar */}
-        <div className="absolute left-0 top-8 bottom-0 w-12 bg-bg-elev-2 border-r border-border flex flex-col items-center py-3 gap-3">
-          <div className="w-7 h-7 rounded-lg bg-accent/20 flex items-center justify-center">
+        <div className="absolute left-0 top-8 bottom-0 w-12 bg-surface-2 border-r border-hairline flex flex-col items-center py-3 gap-3">
+          <div className="w-7 h-7 rounded-[8px] bg-accent/20 flex items-center justify-center">
             <span className="text-xs">📁</span>
           </div>
-          <div className="w-7 h-7 rounded-lg bg-bg-elev flex items-center justify-center">
+          <div className="w-7 h-7 rounded-[8px] bg-surface-1 flex items-center justify-center">
             <span className="text-xs">🤖</span>
           </div>
-          <div className="w-7 h-7 rounded-lg bg-bg-elev flex items-center justify-center">
+          <div className="w-7 h-7 rounded-[8px] bg-surface-1 flex items-center justify-center">
             <span className="text-xs">🔀</span>
           </div>
-          <div className="w-7 h-7 rounded-lg bg-bg-elev flex items-center justify-center">
+          <div className="w-7 h-7 rounded-[8px] bg-surface-1 flex items-center justify-center">
             <span className="text-xs">⚡</span>
           </div>
         </div>
 
         {/* Workspace bar */}
-        <div className="absolute left-12 top-8 right-0 h-10 bg-bg border-b border-border flex items-center px-3 gap-2">
-          <div className="px-3 py-1 rounded bg-bg-elev text-xs text-text-dim flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-ok" />
+        <div className="absolute left-12 top-8 right-0 h-10 bg-canvas border-b border-hairline flex items-center px-3 gap-2">
+          <div className="px-3 py-1 rounded-full bg-surface-1 text-xs text-ink-muted flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-success" />
             <span>my-project</span>
           </div>
         </div>
@@ -221,9 +221,9 @@ export default function AnimatedPaneMock() {
           {panes.map((pane, idx) => (
             <motion.div
               key={pane.id}
-              className="relative bg-bg rounded-lg border overflow-hidden"
+              className="relative bg-canvas rounded-[10px] border overflow-hidden"
               animate={{
-                borderColor: activePane === idx ? pane.color : "var(--border)",
+                borderColor: activePane === idx ? pane.color : "var(--hairline)",
                 boxShadow:
                   activePane === idx
                     ? `0 0 20px ${pane.color}20, inset 0 1px 0 ${pane.color}10`
@@ -233,14 +233,14 @@ export default function AnimatedPaneMock() {
             >
               {/* Pane header */}
               <div
-                className="h-6 border-b border-border flex items-center px-2 gap-1.5"
+                className="h-6 border-b border-hairline flex items-center px-2 gap-1.5"
                 style={{
                   borderTopColor: activePane === idx ? pane.color : "transparent",
                   borderTopWidth: activePane === idx ? 2 : 0,
                 }}
               >
                 <span className="text-xs">{pane.emoji}</span>
-                <span className="text-[10px] font-mono text-muted">{pane.name}</span>
+                <span className="text-[10px] font-mono text-ink-muted">{pane.name}</span>
                 {activePane === idx && (
                   <motion.div
                     className="ml-auto w-1.5 h-1.5 rounded-full"
@@ -259,9 +259,6 @@ export default function AnimatedPaneMock() {
           ))}
         </div>
       </div>
-
-      {/* Glow effect */}
-      <div className="absolute -inset-20 bg-accent/[0.06] blur-3xl rounded-full pointer-events-none" />
     </motion.div>
   );
 }

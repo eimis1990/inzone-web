@@ -8,33 +8,30 @@ const steps = [
     number: "1",
     title: "Download",
     description: "DMG for Apple Silicon or Intel. Drag to Applications.",
-    icon: "📥",
   },
   {
     number: "2",
     title: "Sign in to Claude",
     description: "Paste your API key or run `claude login`. Either works.",
-    icon: "🔑",
   },
   {
     number: "3",
     title: "Open a project",
     description:
       "Pick a folder, split into panes, drop agents in, start working.",
-    icon: "🚀",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section className="py-24 lg:py-32 border-t border-border bg-bg-elev/30">
+    <section className="py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
         <ScrollReveal className="text-center mb-16">
-          <h2 className="font-display text-4xl lg:text-5xl text-text mb-4">
+          <h2 className="font-display display-xl text-ink mb-4">
             Get started in three steps
           </h2>
-          <p className="text-text-dim max-w-xl mx-auto">
+          <p className="body-lg text-ink-muted max-w-xl mx-auto">
             From download to your first agent conversation in under a minute.
           </p>
         </ScrollReveal>
@@ -44,28 +41,25 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <motion.div
               key={index}
-              className="relative p-8 bg-bg rounded-xl border border-border card-hover"
-              whileHover={{ y: -4 }}
+              className="relative p-8 bg-surface-1 rounded-[20px] border border-hairline card-hover"
+              whileHover={{ y: -2 }}
             >
-              {/* Step number */}
-              <div className="absolute -top-4 left-8 px-3 py-1 bg-accent text-accent-on font-display text-2xl rounded">
+              {/* Step number - white pill badge */}
+              <div className="absolute -top-4 left-8 px-4 py-1.5 bg-ink text-canvas font-display text-lg rounded-full">
                 {step.number}
               </div>
 
-              {/* Icon */}
-              <div className="text-4xl mb-4 mt-2">{step.icon}</div>
-
-              {/* Content */}
-              <h3 className="font-display text-2xl text-text mb-2">
+              {/* Content - no emoji icons */}
+              <h3 className="font-display display-md text-ink mb-3 mt-4">
                 {step.title}
               </h3>
-              <p className="text-text-dim text-sm leading-relaxed">
+              <p className="body text-ink-muted">
                 {step.description}
               </p>
 
               {/* Connector line (not on last item) */}
               {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-1/2 -right-4 lg:-right-6 w-8 lg:w-12 h-0.5 bg-border" />
+                <div className="hidden md:block absolute top-1/2 -right-4 lg:-right-6 w-8 lg:w-12 h-px bg-hairline" />
               )}
             </motion.div>
           ))}

@@ -14,7 +14,7 @@ interface Feature {
 // Visual components for each feature
 function FeatureImage({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden">
+    <div className="bg-surface-1 rounded-[20px] border border-hairline overflow-hidden card-hover">
       <Image
         src={src}
         alt={alt}
@@ -22,6 +22,40 @@ function FeatureImage({ src, alt }: { src: string; alt: string }) {
         height={500}
         className="w-full h-auto"
       />
+    </div>
+  );
+}
+
+// Gradient spotlight card variant for featured features
+function SpotlightFeatureImage({
+  src,
+  alt,
+  variant = "violet",
+}: {
+  src: string;
+  alt: string;
+  variant?: "violet" | "magenta" | "coral" | "orange";
+}) {
+  const gradientClasses = {
+    violet: "spotlight-card-violet",
+    magenta: "spotlight-card-magenta",
+    coral: "spotlight-card-coral",
+    orange: "spotlight-card-orange",
+  };
+
+  return (
+    <div
+      className={`spotlight-card spotlight-animated ${gradientClasses[variant]} card-hover`}
+    >
+      <div className="rounded-[20px] overflow-hidden">
+        <Image
+          src={src}
+          alt={alt}
+          width={800}
+          height={500}
+          className="w-full h-auto"
+        />
+      </div>
     </div>
   );
 }
@@ -91,24 +125,36 @@ function MissionControlVisual() {
 
 function LocalFirstVisual() {
   return (
-    <div className="bg-bg-elev rounded-xl border border-border overflow-hidden p-6">
+    <div className="bg-surface-1 rounded-[20px] border border-hairline overflow-hidden p-6 card-hover">
       <div className="flex flex-col items-center">
         {/* MacBook */}
-        <div className="w-16 h-10 bg-bg-elev-2 rounded-lg border border-border flex items-center justify-center mb-4">
-          <span className="text-xl">💻</span>
+        <div className="w-16 h-10 bg-surface-2 rounded-[10px] border border-hairline flex items-center justify-center mb-4">
+          <svg
+            className="w-8 h-8 text-ink-muted"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
+            />
+          </svg>
         </div>
         {/* Connections */}
-        <div className="flex gap-8 text-xs text-muted">
+        <div className="flex gap-8 micro text-ink-muted">
           <div className="text-center">
-            <div className="w-8 h-0.5 bg-border mb-2 mx-auto" />
+            <div className="w-8 h-0.5 bg-hairline mb-2 mx-auto" />
             <span>Anthropic</span>
           </div>
           <div className="text-center">
-            <div className="w-8 h-0.5 bg-border mb-2 mx-auto opacity-50" />
+            <div className="w-8 h-0.5 bg-hairline mb-2 mx-auto opacity-50" />
             <span className="opacity-50">ElevenLabs</span>
           </div>
           <div className="text-center">
-            <div className="w-8 h-0.5 bg-border mb-2 mx-auto" />
+            <div className="w-8 h-0.5 bg-hairline mb-2 mx-auto" />
             <span>Your MCPs</span>
           </div>
         </div>
@@ -204,16 +250,16 @@ function FeatureText({ feature }: { feature: Feature }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <span className="font-mono text-xs text-accent">{feature.number}</span>
-        <span className="text-muted text-xs">/</span>
-        <span className="font-mono text-xs text-muted">{feature.tag}</span>
+        <span className="font-mono caption text-accent">{feature.number}</span>
+        <span className="text-ink-muted caption">/</span>
+        <span className="font-mono caption text-ink-muted">{feature.tag}</span>
       </div>
-      <h3 className="font-display text-2xl lg:text-3xl xl:text-4xl text-text leading-tight">
+      <h3 className="font-display display-lg text-ink">
         {feature.headline}
       </h3>
       <div className="space-y-3">
         {feature.body.map((paragraph, idx) => (
-          <p key={idx} className="text-sm text-text-dim leading-relaxed">
+          <p key={idx} className="body text-ink-muted">
             {paragraph}
           </p>
         ))}
@@ -260,7 +306,7 @@ function FeatureBlock({
 
 export default function Features() {
   return (
-    <section className="py-24 lg:py-32 border-t border-border">
+    <section className="py-24 lg:py-32">
       <div className="max-w-7xl mx-auto px-6 space-y-24 lg:space-y-32">
         {features.map((feature, index) => (
           <FeatureBlock key={index} feature={feature} index={index} />

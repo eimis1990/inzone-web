@@ -111,15 +111,15 @@ export default function DownloadButton() {
           <motion.a
             href="/api/download?os=win"
             onClick={() => trackEvent.downloadWindows()}
-            className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+            className="btn-primary inline-flex items-center gap-3 px-8 py-4"
             whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.97 }}
           >
             <WindowsLogo className="w-5 h-5" />
             <div className="flex flex-col items-start">
               <span>Download for Windows</span>
               {version && (
-                <span className="text-xs opacity-80">v{version}</span>
+                <span className="text-xs opacity-70">v{version}</span>
               )}
             </div>
           </motion.a>
@@ -127,7 +127,7 @@ export default function DownloadButton() {
 
         {/* Windows SmartScreen Warning */}
         <motion.div
-          className="relative px-4 py-3.5 rounded-lg bg-amber-500/10 border border-amber-500/30"
+          className="relative px-4 py-3.5 rounded-[20px] bg-warning/10 border border-warning/30"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
@@ -135,7 +135,7 @@ export default function DownloadButton() {
           <div className="flex gap-3">
             <div className="flex-shrink-0 mt-0.5">
               <svg
-                className="w-5 h-5 text-amber-500"
+                className="w-5 h-5 text-warning"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -149,10 +149,10 @@ export default function DownloadButton() {
               </svg>
             </div>
             <div className="flex-1 space-y-1.5">
-              <h3 className="text-sm font-semibold text-amber-500">
+              <h3 className="body-sm font-semibold text-warning">
                 Windows SmartScreen Warning Expected
               </h3>
-              <p className="text-sm text-text-dim leading-relaxed">
+              <p className="body-sm text-ink-muted leading-relaxed">
                 Windows will show a "Windows protected your PC" warning because
                 INzone is{" "}
                 <a
@@ -167,7 +167,7 @@ export default function DownloadButton() {
                 Certificate ($300-500/year). This warning appears for new,
                 unrecognized applications.
               </p>
-              <p className="text-sm text-amber-400 font-medium">
+              <p className="body-sm text-warning font-medium">
                 To install: Click "More info" → "Run anyway"
               </p>
             </div>
@@ -184,15 +184,15 @@ export default function DownloadButton() {
         <motion.a
           href="/api/download?os=linux"
           onClick={() => trackEvent.downloadLinux()}
-          className="btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
+          className="btn-primary inline-flex items-center gap-3 px-8 py-4"
           whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.97 }}
         >
           <LinuxLogo className="w-5 h-5" />
           <div className="flex flex-col items-start">
             <span>Download for Linux</span>
             {version && (
-              <span className="text-xs opacity-80">v{version}</span>
+              <span className="text-xs opacity-70">v{version}</span>
             )}
           </div>
         </motion.a>
@@ -207,19 +207,17 @@ export default function DownloadButton() {
       <motion.a
         href="/api/download?os=mac&arch=arm64"
         onClick={() => trackEvent.downloadAppleSilicon()}
-        className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
-          isAppleSilicon
-            ? "bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
-            : "bg-bg-elev text-text border border-border hover:border-accent/50"
+        className={`inline-flex items-center gap-3 px-8 py-4 ${
+          isAppleSilicon ? "btn-primary" : "btn-secondary"
         }`}
         whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileTap={{ scale: 0.97 }}
       >
         <AppleLogo className="w-5 h-5" />
         <div className="flex flex-col items-start">
           <span>Download for Apple Silicon</span>
           {version && (
-            <span className="text-xs opacity-80">v{version}</span>
+            <span className="text-xs opacity-70">v{version}</span>
           )}
         </div>
       </motion.a>
@@ -228,19 +226,17 @@ export default function DownloadButton() {
       <motion.a
         href="/api/download?os=mac&arch=x64"
         onClick={() => trackEvent.downloadIntelMac()}
-        className={`btn-press inline-flex items-center gap-2.5 px-6 py-3.5 font-semibold rounded-lg transition-all ${
-          !isAppleSilicon
-            ? "bg-accent text-accent-on hover:bg-accent/90 hover:shadow-lg hover:shadow-accent/20"
-            : "bg-bg-elev text-text border border-border hover:border-accent/50"
+        className={`inline-flex items-center gap-3 px-8 py-4 ${
+          !isAppleSilicon ? "btn-primary" : "btn-secondary"
         }`}
         whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileTap={{ scale: 0.97 }}
       >
         <ChipIcon className="w-5 h-5" />
         <div className="flex flex-col items-start">
           <span>Download for Intel Mac</span>
           {version && (
-            <span className="text-xs opacity-80">v{version}</span>
+            <span className="text-xs opacity-70">v{version}</span>
           )}
         </div>
       </motion.a>

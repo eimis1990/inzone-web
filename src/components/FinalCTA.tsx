@@ -6,16 +6,16 @@ import DownloadButton from "./DownloadButton";
 
 export default function FinalCTA() {
   return (
-    <section className="py-24 lg:py-32 border-t border-border relative overflow-hidden">
-      {/* Background glow */}
+    <section className="py-24 lg:py-32 relative overflow-hidden">
+      {/* Background glow - violet, ultra-low opacity */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-accent/[0.04] blur-[100px] rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-grad-violet/[0.06] blur-[150px] rounded-full" />
       </div>
 
       <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
         <ScrollReveal>
           <motion.h2
-            className="font-display text-4xl lg:text-5xl xl:text-6xl text-text mb-6"
+            className="font-display display-xl text-ink mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -25,7 +25,7 @@ export default function FinalCTA() {
         </ScrollReveal>
 
         <ScrollReveal delay={0.1}>
-          <p className="text-lg text-text-dim mb-10 max-w-xl mx-auto">
+          <p className="body-lg text-ink-muted mb-10 max-w-xl mx-auto">
             Free for personal and commercial use. No account required.
           </p>
         </ScrollReveal>
@@ -38,7 +38,7 @@ export default function FinalCTA() {
 
         {/* Trust badges */}
         <ScrollReveal delay={0.3}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted">
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 caption text-ink-muted">
             <div className="flex items-center gap-2">
               <svg
                 className="w-4 h-4"
