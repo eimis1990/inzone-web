@@ -108,8 +108,71 @@ function LeadModeVisual() {
 function VoiceVisual() {
   return (
     <FeatureImage
-      src="/voice.png"
-      alt="Voice interface for controlling agents"
+      src="/voice-panes-wiki.png"
+      alt="Voice interface for controlling agents with wiki grounding"
+    />
+  );
+}
+
+function TasksVisual() {
+  return (
+    <FeatureImage
+      src="/tasks-templates.png"
+      alt="Task templates for quick project setup"
+    />
+  );
+}
+
+function LayoutsVisual() {
+  return (
+    <FeatureImage
+      src="/layouts-templates.png"
+      alt="Layout presets for pane arrangements"
+    />
+  );
+}
+
+function PaneFocusVisual() {
+  return (
+    <FeatureImage
+      src="/pane-focus.png"
+      alt="Pane focus tabs for fullscreen single pane view"
+    />
+  );
+}
+
+function WorktreeVisual() {
+  return (
+    <FeatureImage
+      src="/worktree-feature.png"
+      alt="Git worktree management from sidebar"
+    />
+  );
+}
+
+function TerminalVisual() {
+  return (
+    <FeatureImage
+      src="/in-app-terminal.png"
+      alt="Built-in terminal with ANSI colors and WebGL acceleration"
+    />
+  );
+}
+
+function PreviewVisual() {
+  return (
+    <FeatureImage
+      src="/browser-preview.png"
+      alt="In-app browser preview for localhost URLs"
+    />
+  );
+}
+
+function WikiVisual() {
+  return (
+    <FeatureImage
+      src="/wiki-feature.png"
+      alt="Project wiki with agent-editable markdown"
     />
   );
 }
@@ -176,13 +239,13 @@ const features: Feature[] = [
   },
   {
     number: "02",
-    tag: "Workers tab",
-    headline: "Agents and CLI tools share one shelf.",
+    tag: "Lead mode",
+    headline: "One orchestrator. Many subagents.",
     body: [
-      "Drop a Claude agent on a pane to chat with it; drop Claude Code, Codex CLI, Aider, Gemini CLI, or a plain shell on a pane to embed that tool right in the layout.",
-      "Same drag, same surface — choose the right tool for each task.",
+      "Switch a project into Lead mode and a top pane becomes the orchestrator agent. It can spawn subagents, message them by name, watch their progress, and hand off tasks.",
+      "The same lightweight pattern Anthropic uses internally — without any of the plumbing.",
     ],
-    visual: <WorkersTabVisual />,
+    visual: <LeadModeVisual />,
   },
   {
     number: "03",
@@ -196,36 +259,116 @@ const features: Feature[] = [
   },
   {
     number: "04",
-    tag: "Worktrees + Diff Review + PR",
-    headline: "Branch, build, review, ship — without leaving the app.",
+    tag: "Tasks",
+    headline: "Pre-wired templates for common workflows.",
     body: [
-      "Spin up a git worktree off any branch from the sidebar. Several agents can work in parallel branches without stepping on each other.",
-      "When the work is ready, the Review tab shows a side-by-side diff with per-hunk approve/reject. One click opens a PR via the gh CLI, and INZONE cleans up the worktree afterwards.",
+      "Nine built-in task templates ship with the app — pre-wiring layouts, agent bindings, and prompts for common scenarios like code review, debugging, or feature building.",
+      "Capture your current session as a custom task to replay later. One click and you're back in the zone.",
+    ],
+    visual: <TasksVisual />,
+  },
+  {
+    number: "05",
+    tag: "Layouts",
+    headline: "Named pane presets. Shape without assignment.",
+    body: [
+      "Layouts are pane-tree presets separate from Tasks — the shape of your workspace without agent assignments.",
+      "Switch between 1, 2, 4, 6, 8, or 10-pane grids instantly, or save custom arrangements for different work modes.",
+    ],
+    visual: <LayoutsVisual />,
+  },
+  {
+    number: "06",
+    tag: "Pane Focus",
+    headline: "Fullscreen one pane. Others keep running.",
+    body: [
+      "A horizontal tab strip lets you toggle any pane to fullscreen while the others continue working invisibly in the background.",
+      "⌘F to focus. ⌘F again to return. Your agents never stop.",
+    ],
+    visual: <PaneFocusVisual />,
+  },
+  {
+    number: "07",
+    tag: "Worktrees",
+    headline: "Parallel branches. Zero conflicts.",
+    body: [
+      "Spin up a git worktree off any branch directly from the sidebar. Several agents can work in parallel branches without stepping on each other's changes.",
+      "Optional prefixes and a WT chip keep your worktrees organized. INZONE cleans up when you're done.",
+    ],
+    visual: <WorktreeVisual />,
+  },
+  {
+    number: "08",
+    tag: "Diff Review + PR",
+    headline: "Review, approve, ship — without leaving the app.",
+    body: [
+      "The Review tab shows a side-by-side or inline diff with per-hunk approve/reject controls. Send feedback back to the agent for revision loops.",
+      "When the work is ready, one click opens a PR via the gh CLI. INZONE handles the rest.",
     ],
     visual: <DiffReviewVisual />,
   },
   {
-    number: "05",
-    tag: "Lead mode",
-    headline: "One orchestrator. Many subagents.",
+    number: "09",
+    tag: "Terminal",
+    headline: "A real shell. Inside every pane.",
     body: [
-      "Switch a project into Lead mode and a top pane becomes the orchestrator agent. It can spawn subagents, message them by name, watch their progress, and hand off tasks.",
-      "The same lightweight pattern Anthropic uses internally — without any of the plumbing.",
+      "A full PTY terminal (zsh/bash) with ANSI color support, WebGL-accelerated rendering, and persistent state across sessions.",
+      "Add customizable shortcut buttons for your most-used commands. Your agents can run shell commands; so can you.",
     ],
-    visual: <LeadModeVisual />,
+    visual: <TerminalVisual />,
   },
   {
-    number: "06",
+    number: "10",
+    tag: "Preview",
+    headline: "Localhost in the app. No tab-switching.",
+    body: [
+      "An in-app browser auto-detects localhost URLs from your project. Multi-URL picker when you have several dev servers running.",
+      "Port-kill action built in. See your changes instantly without leaving INZONE.",
+    ],
+    visual: <PreviewVisual />,
+  },
+  {
+    number: "11",
+    tag: "Project Wiki",
+    headline: "Living documentation your agents can read and write.",
+    body: [
+      "A markdown wiki at .inzone/wiki/ that agents can edit, query, and cite. Schema enforcement keeps structure consistent.",
+      "Structured ingestion, linting, and wiki-grounded voice Q&A. Your project knowledge, always up to date.",
+    ],
+    visual: <WikiVisual />,
+  },
+  {
+    number: "12",
     tag: "Voice",
     headline: "Talk to your fleet.",
     body: [
-      'Connect an ElevenLabs Conversational AI agent and drive INZONE by voice. "Spin up a frontend agent on this folder." "Tell the backend agent to add the auth endpoint."',
-      "Bring your own ElevenLabs account; INZONE doesn't take a cut.",
+      '"Spin up a frontend agent on this folder." "Tell the backend agent to add the auth endpoint." Drive INZONE by voice with ElevenLabs Conversational AI.',
+      "Pane creation, mode switching, wiki queries with citations — all hands-free. Bring your own ElevenLabs account.",
     ],
     visual: <VoiceVisual />,
   },
   {
-    number: "07",
+    number: "13",
+    tag: "Workers tab",
+    headline: "Agents and CLI tools share one shelf.",
+    body: [
+      "Drop a Claude agent on a pane to chat with it; drop Claude Code, Codex CLI, Aider, Gemini CLI, or a plain shell on a pane to embed that tool right in the layout.",
+      "Same drag, same surface — choose the right tool for each task.",
+    ],
+    visual: <WorkersTabVisual />,
+  },
+  {
+    number: "14",
+    tag: "MCP Servers",
+    headline: "External tools. Native integration.",
+    body: [
+      "OAuth-integrated MCP servers for Figma, JIRA, GitHub, Filesystem, and custom endpoints. Tokens stored securely in macOS keychain.",
+      "Your agents can pull designs, create issues, and read files from anywhere you authorize.",
+    ],
+    visual: <LocalFirstVisual />,
+  },
+  {
+    number: "15",
     tag: "Mission Control",
     headline: "Every agent. Every project. One glance.",
     body: [
@@ -235,7 +378,7 @@ const features: Feature[] = [
     visual: <MissionControlVisual />,
   },
   {
-    number: "08",
+    number: "16",
     tag: "Local-first",
     headline: "Your code never leaves your laptop.",
     body: [
