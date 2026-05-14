@@ -393,7 +393,7 @@ function FeatureText({ feature }: { feature: Feature }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        <span className="font-mono caption text-accent">{feature.number}</span>
+        <span className="font-mono caption text-brand-yellow">{feature.number}</span>
         <span className="text-ink-muted caption">/</span>
         <span className="font-mono caption text-ink-muted">{feature.tag}</span>
       </div>

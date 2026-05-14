@@ -43,7 +43,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
             >
-              <span className="caption uppercase tracking-[0.1em] text-[#E4D947]">
+              <span className="caption uppercase tracking-[0.1em] text-brand-yellow">
                 INZONE · V1.0
               </span>
             </motion.div>

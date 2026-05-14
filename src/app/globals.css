@@ -18,6 +18,7 @@
 
   /* Accent */
   --accent: #0099FF;
+  --brand-yellow: #E4D947;
 
   /* Gradients */
   --grad-violet: #6A4CF5;
@@ -29,6 +30,7 @@
   --success: #22C55E;
   --warning: #F59E0B;
   --error: #EF4444;
+  --crimson: #DC143C;
 
   /* Legacy mappings for backwards compatibility during migration */
   --bg: var(--canvas);
@@ -57,6 +59,7 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-accent: var(--accent);
+  --color-brand-yellow: var(--brand-yellow);
   --color-grad-violet: var(--grad-violet);
   --color-grad-magenta: var(--grad-magenta);
   --color-grad-coral: var(--grad-coral);
@@ -64,6 +67,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --color-crimson: var(--crimson);
 
   /* Legacy mappings */
   --color-bg: var(--canvas);
