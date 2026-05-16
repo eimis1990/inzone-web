@@ -1,0 +1,6 @@
+{
+  "name": "INZONE Landing Page",
+  "description": "A monolithic, 50-shades-of-grey landing page for INZONE open-source project.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

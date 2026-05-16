@@ -84,6 +84,7 @@
   --font-display: var(--font-geist-sans);
   --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
 * {
@@ -109,6 +110,39 @@ body {
   font-family: var(--font-display), system-ui, sans-serif;
   letter-spacing: -0.03em;
   line-height: 1.0;
+}
+
+/* Editorial serif */
+.font-serif {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+}
+
+/* Manifesto - editorial display style */
+.manifesto {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-size: 88px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+}
+
+.manifesto em {
+  font-style: italic;
+}
+
+@media (max-width: 1024px) {
+  .manifesto {
+    font-size: 68px;
+    letter-spacing: -2.0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .manifesto {
+    font-size: 44px;
+    letter-spacing: -1.2px;
+    line-height: 1.1;
+  }
 }
 
 /* Type Scale - Framer-inspired aggressive tracking */

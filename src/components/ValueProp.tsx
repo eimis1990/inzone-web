@@ -42,6 +42,13 @@ export function StatsBar() {
 const MANIFESTO_TEXT =
   "Built for developers who use Claude as a teammate, not a tab. Run several agents in parallel, chain them into pipelines, review their diffs in-app, ship with one click. Your folder, your subscription, your machine.";
 
+const ITALIC_WORDS = new Set([
+  "teammate,",
+  "parallel,",
+  "pipelines,",
+  "machine.",
+]);
+
 export default function ValueProp() {
   const paraRef = useRef<HTMLParagraphElement>(null);
 
@@ -106,26 +113,27 @@ export default function ValueProp() {
     <section className="relative pt-24 pb-32 lg:pt-32 lg:pb-40">
       <div className="max-w-7xl mx-auto px-6">
         {/* Central message - manifesto paragraph */}
-        <div className="max-w-[1100px] mx-auto text-center">
-          <p
-            ref={paraRef}
-            className="display-lg leading-[1.1] tracking-tight"
-          >
-            {words.map((word, i) => (
-              <span
-                key={i}
-                data-word
-                style={{
-                  color: "#555555",
-                  opacity: 0.35,
-                  display: "inline-block",
-                  marginRight: "0.25em",
-                  willChange: "color, opacity",
-                }}
-              >
-                {word}
-              </span>
-            ))}
+        <div className="max-w-[1200px] mx-auto text-center">
+          <p ref={paraRef} className="manifesto">
+            {words.map((word, i) => {
+              const isItalic = ITALIC_WORDS.has(word);
+              return (
+                <span
+                  key={i}
+                  data-word
+                  style={{
+                    color: "#555555",
+                    opacity: 0.35,
+                    display: "inline-block",
+                    marginRight: "0.25em",
+                    fontStyle: isItalic ? "italic" : "normal",
+                    willChange: "color, opacity",
+                  }}
+                >
+                  {word}
+                </span>
+              );
+            })}
           </p>
         </div>
       </div>
