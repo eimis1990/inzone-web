@@ -5,6 +5,18 @@ parseable header: `## [YYYY-MM-DD] <type> | <short title>`.
 
 See [[wiki-schema]] for the full format.
 
+## [2026-05-17] edit | favicon source PNG swapped to in-zone-logo.png
+
+Regenerated every icon asset (`src/app/icon.png`, `src/app/apple-icon.png`,
+`public/favicon.ico`, `public/favicon.png`, `public/apple-touch-icon.png`,
+`public/icon-192.png`, `public/icon-512.png`) from `public/in-zone-logo.png`
+instead of the previous `public/inzone-logo-light.png`. New source is 710×722
+(non-square), so the pipeline now pads to a 722×722 transparent canvas
+(`magick -gravity center -extent 722x722`) before downscaling — otherwise
+the favicon would be horizontally squashed. Added `public/favicon.png`
+(32×32) as a PNG mirror of the ICO. Updated [[seo]] regen commands +
+file layout. Build verified clean: 9 routes, 1.85s compile.
+
 ## [2026-05-17] edit | brand favicon + manifest + world-class SEO/LLM discoverability pass
 
 **Favicon fix.** Deleted `src/app/favicon.ico` (it was the unmodified Next.js create-template Vercel-logo ICO, 25 KB, surviving from the initial scaffold — that's why the tab "showed no icon" / showed the wrong one). Regenerated brand icons from `public/inzone-logo-light.png` (orange compass-star variant — best contrast on the white/light tab bars used by Safari/Chrome/Edge) via ImageMagick: `src/app/icon.png` (32×32), `src/app/apple-icon.png` (180×180), `public/favicon.ico` (multi-size 16/32/48), `public/apple-touch-icon.png` (180), `public/icon-192.png`, `public/icon-512.png`. Removed `metadata.icons` from `src/app/layout.tsx` and let the Next.js file convention own the emitted `<link>` tags — the previous explicit `/favicon.ico` + `/apple-touch-icon.png` override pointed at files that didn't exist in `public/`. Created `public/manifest.json` (name, short_name, theme_color #0d0d0d, background_color, display standalone, start_url /, icons array). Created `public/og-image.png` (1200×630 centre-crop of `hero_image_dark.png`).

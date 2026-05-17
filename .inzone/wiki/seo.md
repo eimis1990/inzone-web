@@ -19,21 +19,29 @@ Layout:
 - `src/app/icon.png` — 32×32 PNG. Becomes `/icon.png` and `<link rel="icon">`.
 - `src/app/apple-icon.png` — 180×180 PNG. Becomes `/apple-icon.png` and `<link rel="apple-touch-icon">`.
 - `public/favicon.ico` — multi-size ICO (16/32/48). Served at `/favicon.ico` for any browser/scraper that still hits the legacy path directly.
+- `public/favicon.png` — 32×32 PNG mirror for crawlers that prefer PNG over ICO.
 - `public/apple-touch-icon.png` — 180×180 mirror at the legacy public path.
 - `public/icon-192.png`, `public/icon-512.png` — PWA-manifest icons.
 
-**Source.** All five PNGs are derived from `public/inzone-logo-light.png`
-(the orange compass-star variant — better contrast than the yellow dark
-variant against the white/light tab bars in Safari, Chrome, and Edge).
-Regenerate with ImageMagick:
+**Source.** As of **2026-05-17** all icons are derived from
+`public/in-zone-logo.png` (previously `public/inzone-logo-light.png`).
+The source is **710×722** — not square — so it must be padded to a
+square transparent canvas before downscaling, otherwise the favicon
+gets squashed. Regenerate with ImageMagick:
 
 ```sh
-magick public/inzone-logo-light.png -background none -resize 32x32 src/app/icon.png
-magick public/inzone-logo-light.png -background none -resize 180x180 src/app/apple-icon.png
-magick public/inzone-logo-light.png -background none -resize 192x192 public/icon-192.png
-magick public/inzone-logo-light.png -background none -resize 512x512 public/icon-512.png
-magick public/inzone-logo-light.png -background none -resize 180x180 public/apple-touch-icon.png
-magick public/inzone-logo-light.png -background none \
+# 1. Pad non-square source to square canvas (transparent bg) first.
+magick public/in-zone-logo.png -background none -gravity center \
+  -extent 722x722 /tmp/inzone-square.png
+
+# 2. Downscale to each target size.
+magick /tmp/inzone-square.png -background none -resize 32x32  src/app/icon.png
+magick /tmp/inzone-square.png -background none -resize 32x32  public/favicon.png
+magick /tmp/inzone-square.png -background none -resize 180x180 src/app/apple-icon.png
+magick /tmp/inzone-square.png -background none -resize 180x180 public/apple-touch-icon.png
+magick /tmp/inzone-square.png -background none -resize 192x192 public/icon-192.png
+magick /tmp/inzone-square.png -background none -resize 512x512 public/icon-512.png
+magick /tmp/inzone-square.png -background none \
   \( -clone 0 -resize 16x16 \) \
   \( -clone 0 -resize 32x32 \) \
   \( -clone 0 -resize 48x48 \) \
