@@ -13,7 +13,7 @@ add new headings here when an organising theme emerges.
 
 ## Decisions
 
-- (none yet — see [[decisions/README]])
+- [[decisions/landing-refactor-2026-05]] — port Vite landing into Next.js App Router
 
 ## Conventions
 

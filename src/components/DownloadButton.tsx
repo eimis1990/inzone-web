@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { trackEvent } from "@/lib/analytics";
-
-type Platform = "mac" | "windows" | "linux";
+import { usePlatform } from "@/lib/usePlatform";
 
 function AppleLogo({ className }: { className?: string }) {
   return (
@@ -64,32 +63,10 @@ function ChipIcon({ className }: { className?: string }) {
 }
 
 export default function DownloadButton() {
-  const [platform, setPlatform] = useState<Platform>("mac");
-  const [isAppleSilicon, setIsAppleSilicon] = useState(true);
+  const { platform, isAppleSilicon } = usePlatform();
   const [version, setVersion] = useState<string | null>(null);
 
   useEffect(() => {
-    const userAgent = navigator.userAgent;
-
-    // Detect platform
-    if (userAgent.includes("Win")) {
-      setPlatform("windows");
-    } else if (userAgent.includes("Linux")) {
-      setPlatform("linux");
-    } else if (userAgent.includes("Mac")) {
-      setPlatform("mac");
-
-      // Attempt to detect Apple Silicon
-      // Note: This is imperfect - Safari on Apple Silicon often reports as Intel
-      // We default to Apple Silicon since most new Macs are M-series
-      const isLikelyAppleSilicon =
-        /Macintosh.*Apple/i.test(userAgent) ||
-        // @ts-expect-error - userAgentData is not in all browsers
-        navigator.userAgentData?.platform === "macOS";
-
-      setIsAppleSilicon(isLikelyAppleSilicon);
-    }
-
     // Fetch version on mount
     fetch("/api/version")
       .then((res) => res.json())
@@ -111,7 +88,7 @@ export default function DownloadButton() {
           <motion.a
             href="/api/download?os=win"
             onClick={() => trackEvent.downloadWindows()}
-            className="btn-primary inline-flex items-center gap-3 px-8 py-4"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-neutral-900 dark:bg-[#fff] text-neutral-50 dark:text-[#0d0d0d] hover:bg-neutral-800 dark:hover:bg-[#ccc] px-8 py-4 font-black text-xs uppercase tracking-widest transition-all transform hover:-translate-y-1"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
           >
@@ -127,7 +104,7 @@ export default function DownloadButton() {
 
         {/* Windows SmartScreen Warning */}
         <motion.div
-          className="relative px-4 py-3.5 rounded-[20px] bg-warning/10 border border-warning/30"
+          className="relative px-4 py-3.5 rounded-[20px] bg-yellow-500/10 border border-yellow-500/30"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
@@ -135,7 +112,7 @@ export default function DownloadButton() {
           <div className="flex gap-3">
             <div className="flex-shrink-0 mt-0.5">
               <svg
-                className="w-5 h-5 text-warning"
+                className="w-5 h-5 text-yellow-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -149,7 +126,7 @@ export default function DownloadButton() {
               </svg>
             </div>
             <div className="flex-1 space-y-1.5">
-              <h3 className="body-sm font-semibold text-warning">
+              <h3 className="body-sm font-semibold text-yellow-600">
                 Windows SmartScreen Warning Expected
               </h3>
               <p className="body-sm text-ink-muted leading-relaxed">
@@ -167,7 +144,7 @@ export default function DownloadButton() {
                 Certificate ($300-500/year). This warning appears for new,
                 unrecognized applications.
               </p>
-              <p className="body-sm text-warning font-medium">
+              <p className="body-sm text-yellow-700 font-medium">
                 To install: Click "More info" → "Run anyway"
               </p>
             </div>
@@ -184,7 +161,7 @@ export default function DownloadButton() {
         <motion.a
           href="/api/download?os=linux"
           onClick={() => trackEvent.downloadLinux()}
-          className="btn-primary inline-flex items-center gap-3 px-8 py-4"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-neutral-900 dark:bg-[#fff] text-neutral-50 dark:text-[#0d0d0d] hover:bg-neutral-800 dark:hover:bg-[#ccc] px-8 py-4 font-black text-xs uppercase tracking-widest transition-all transform hover:-translate-y-1"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.97 }}
         >
@@ -207,8 +184,10 @@ export default function DownloadButton() {
       <motion.a
         href="/api/download?os=mac&arch=arm64"
         onClick={() => trackEvent.downloadAppleSilicon()}
-        className={`inline-flex items-center gap-3 px-8 py-4 ${
-          isAppleSilicon ? "btn-primary" : "btn-secondary"
+        className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 font-black text-xs uppercase tracking-widest transition-all transform hover:-translate-y-1 ${
+          isAppleSilicon
+            ? "bg-neutral-900 dark:bg-[#fff] text-neutral-50 dark:text-[#0d0d0d] hover:bg-neutral-800 dark:hover:bg-[#ccc]"
+            : "border border-neutral-300 dark:border-[#444] bg-neutral-100 dark:bg-[#222] text-neutral-900 dark:text-[#fff] hover:bg-neutral-200 dark:hover:bg-[#333]"
         }`}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
@@ -226,8 +205,10 @@ export default function DownloadButton() {
       <motion.a
         href="/api/download?os=mac&arch=x64"
         onClick={() => trackEvent.downloadIntelMac()}
-        className={`inline-flex items-center gap-3 px-8 py-4 ${
-          !isAppleSilicon ? "btn-primary" : "btn-secondary"
+        className={`w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 font-black text-xs uppercase tracking-widest transition-all transform hover:-translate-y-1 ${
+          !isAppleSilicon
+            ? "bg-neutral-900 dark:bg-[#fff] text-neutral-50 dark:text-[#0d0d0d] hover:bg-neutral-800 dark:hover:bg-[#ccc]"
+            : "border border-neutral-300 dark:border-[#444] bg-neutral-100 dark:bg-[#222] text-neutral-900 dark:text-[#fff] hover:bg-neutral-200 dark:hover:bg-[#333]"
         }`}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.97 }}

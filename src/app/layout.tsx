@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { Inter, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import { Inter, JetBrains_Mono, Squada_One } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import KofiWidget from "@/components/KofiWidget";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,24 +15,23 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
+const squadaOne = Squada_One({
+  variable: "--font-squada-one",
   weight: "400",
-  style: ["normal", "italic"],
+  subsets: ["latin"],
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#090909",
+  themeColor: "#0d0d0d",
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata: Metadata = {
-  title: "INZONE — Multiple Claude agents. One window.",
+  title: "INZONE — The Multi-Agent Workspace",
   description:
-    "A macOS cockpit for orchestrating multiple Claude Agent SDK sessions side-by-side. Multi-pane workspace, Flow pipelines, in-app PR.",
+    "Delegate, don't micromanage. INZONE is a sequential agent pipeline environment with worktrees, layout panes, and built-in visual diff reviews.",
   keywords: [
     "Claude",
     "AI agents",
@@ -54,23 +51,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://inzone.app",
     siteName: "INZONE",
-    title: "INZONE — Multiple Claude agents. One window.",
+    title: "INZONE — The Multi-Agent Workspace",
     description:
-      "A macOS cockpit for orchestrating multiple Claude Agent SDK sessions side-by-side. Multi-pane workspace, Flow pipelines, in-app PR.",
+      "Delegate, don't micromanage. INZONE is a sequential agent pipeline environment with worktrees, layout panes, and built-in visual diff reviews.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "INZONE - Run a fleet of AI agents from one window",
+        alt: "INZONE - The Multi-Agent Workspace",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "INZONE — Multiple Claude agents. One window.",
+    title: "INZONE — The Multi-Agent Workspace",
     description:
-      "A macOS cockpit for orchestrating multiple Claude Agent SDK sessions side-by-side.",
+      "Delegate, don't micromanage. INZONE is a sequential agent pipeline environment with worktrees, layout panes, and built-in visual diff reviews.",
     images: ["/og-image.png"],
   },
   icons: {
@@ -88,7 +85,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable}`}
+      className={`dark ${inter.variable} ${jetbrainsMono.variable} ${squadaOne.variable}`}
+      suppressHydrationWarning
     >
       <head>
         <script
@@ -116,9 +114,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-canvas text-ink antialiased">
+      <body className="antialiased">
         {children}
-        <KofiWidget />
         <Analytics />
       </body>
     </html>
