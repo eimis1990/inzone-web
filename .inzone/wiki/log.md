@@ -5,6 +5,29 @@ parseable header: `## [YYYY-MM-DD] <type> | <short title>`.
 
 See [[wiki-schema]] for the full format.
 
+## [2026-05-17] edit | demo-video placeholder uses hero image + Coming soon
+
+`DemoVideoSection` in `src/components/LandingClient.tsx:844-893` previously
+showed an empty shimmer panel behind the play button. There is no demo
+video yet. Replaced the empty panel with the two existing
+`/hero_image_light.png` + `/hero_image_dark.png` (theme-swapped via
+`object-cover dark:hidden` / `hidden dark:block`), added a dark gradient
+overlay for play-button contrast, and added a "Coming soon…" pill caption
+under the play button (mono, tracking-widest, glass pill). Section is
+visually non-interactive (`pointer-events-none` on overlay; outer `div` no
+longer claims to be `cursor-pointer`). `pnpm build` clean.
+
+## [2026-05-17] edit | landing terminal demo shows real install flow
+
+`src/components/LandingClient.tsx:528-547` previously showed a fake
+`npm install -g inzone-core` + `inzone init --workspace="./project"`
+sequence. There is no published `inzone-core` npm package and no
+`inzone init` command — that was placeholder copy. Replaced with the
+actual flow: `git clone https://github.com/eimis1990/inzone`,
+`cd inzone && npm install`, `npm run dev`. Final green line changed
+from "Environment orchestrated successfully." to "INZONE running.
+Open the window." `pnpm build` clean.
+
 ## [2026-05-17] edit | favicon source PNG swapped to in-zone-logo.png
 
 Regenerated every icon asset (`src/app/icon.png`, `src/app/apple-icon.png`,

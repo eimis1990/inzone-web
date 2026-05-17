@@ -528,17 +528,18 @@ export default function LandingClient() {
                 <div className="bg-neutral-50 dark:bg-black p-6 font-mono text-xs sm:text-sm text-neutral-800 dark:text-neutral-300 space-y-3">
                   <div className="flex">
                     <span className="text-blue-500 mr-2">❯</span>
-                    <span>npm install -g inzone-core</span>
-                  </div>
-                  <div className="flex text-neutral-500 dark:text-[#666] opacity-70">
-                    <span>added 42 packages in 1.2s</span>
+                    <span>git clone https://github.com/eimis1990/inzone</span>
                   </div>
                   <div className="flex">
                     <span className="text-blue-500 mr-2">❯</span>
-                    <span>inzone init --workspace=&quot;./project&quot;</span>
+                    <span>cd inzone &amp;&amp; npm install</span>
+                  </div>
+                  <div className="flex">
+                    <span className="text-blue-500 mr-2">❯</span>
+                    <span>npm run dev</span>
                   </div>
                   <div className="flex text-green-500">
-                    <span>✔ Environment orchestrated successfully.</span>
+                    <span>✔ INZONE running. Open the window.</span>
                   </div>
                   <div className="flex animate-pulse">
                     <span className="text-blue-500 mr-2">❯</span>
@@ -856,21 +857,40 @@ function DemoVideoSection() {
           </h2>
         </div>
 
-        <div className="relative w-full aspect-[16/10] md:aspect-video rounded-3xl border border-neutral-200 dark:border-[#333] shadow-2xl glass-panel flex items-center justify-center overflow-hidden group cursor-pointer transition-all duration-500 hover:shadow-3xl hover:border-neutral-300 dark:hover:border-[#444]">
-          <div className="absolute inset-0 bg-neutral-100 dark:bg-[#111] inner-shimmer"></div>
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-neutral-300 via-transparent to-transparent dark:from-white dark:via-transparent dark:to-transparent"></div>
+        <div className="relative w-full aspect-[16/10] md:aspect-video rounded-3xl border border-neutral-200 dark:border-[#333] shadow-2xl glass-panel overflow-hidden group transition-all duration-500 hover:shadow-3xl hover:border-neutral-300 dark:hover:border-[#444]">
+          <Image
+            src="/hero_image_light.png"
+            alt="INZONE workspace preview — demo video coming soon"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            className="object-cover dark:hidden"
+          />
+          <Image
+            src="/hero_image_dark.png"
+            alt="INZONE workspace preview — demo video coming soon"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            className="object-cover hidden dark:block"
+          />
 
-          <div className="absolute top-0 left-0 right-0 h-10 border-b border-neutral-200 dark:border-[#222] bg-white/50 dark:bg-black/50 backdrop-blur-md flex items-center px-4 gap-2 z-10">
-            <div className="w-3 h-3 rounded-full bg-neutral-300 dark:bg-[#444]"></div>
-            <div className="w-3 h-3 rounded-full bg-neutral-300 dark:bg-[#444]"></div>
-            <div className="w-3 h-3 rounded-full bg-neutral-300 dark:bg-[#444]"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/50 dark:from-black/30 dark:via-black/40 dark:to-black/70"></div>
+
+          <div className="absolute top-0 left-0 right-0 h-10 border-b border-white/10 dark:border-white/5 bg-white/30 dark:bg-black/40 backdrop-blur-md flex items-center px-4 gap-2 z-10">
+            <div className="w-3 h-3 rounded-full bg-white/40 dark:bg-white/20"></div>
+            <div className="w-3 h-3 rounded-full bg-white/40 dark:bg-white/20"></div>
+            <div className="w-3 h-3 rounded-full bg-white/40 dark:bg-white/20"></div>
           </div>
 
-          <div className="relative z-20 w-20 h-20 md:w-28 md:h-28 rounded-full bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 flex items-center justify-center shadow-2xl transform transition-transform duration-500 group-hover:scale-110">
-            <Play
-              className="w-8 h-8 md:w-12 md:h-12 ml-1 md:ml-2"
-              fill="currentColor"
-            />
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-6 pointer-events-none">
+            <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/95 dark:bg-white text-neutral-900 flex items-center justify-center shadow-2xl backdrop-blur-sm">
+              <Play
+                className="w-8 h-8 md:w-12 md:h-12 ml-1 md:ml-2"
+                fill="currentColor"
+              />
+            </div>
+            <span className="font-mono text-[11px] md:text-xs tracking-[0.4em] uppercase text-white/90 dark:text-white/80 px-4 py-1.5 rounded-full bg-black/30 dark:bg-black/40 backdrop-blur-md border border-white/10">
+              Coming soon…
+            </span>
           </div>
         </div>
       </div>
