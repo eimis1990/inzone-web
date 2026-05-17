@@ -10,6 +10,7 @@ add new headings here when an organising theme emerges.
 - [[architecture]] — system overview
 - [[glossary]] — project-specific terms
 - [[gotchas]] — landmines and surprises
+- [[seo]] — SEO + LLM discoverability setup (metadata, robots, sitemap, JSON-LD, llms.txt, favicons)
 
 ## Decisions
 

@@ -1,0 +1,39 @@
+# INZONE
+
+> INZONE is a macOS multi-agent workspace for Claude Code. It lets developers run multiple Claude Agent SDK sessions side-by-side in a single window, orchestrate them with a Lead agent, chain them into sequential flow pipelines on a free-form canvas, and review their work with built-in per-hunk diff review and GitHub PR drafting. INZONE is free, open source (MIT), and local-first — your transcripts, agent definitions, MCP configs, and OAuth tokens stay on your machine.
+
+Core concepts:
+
+- **Multi-pane workspace** — every pane is an independent Claude Agent SDK session. Run Claude, Codex, Aider, Gemini, or any CLI agent side-by-side.
+- **Lead mode** — a top-pane Lead Agent delegates tasks to sub-agents via a built-in messaging protocol. One agent plans, the others execute in parallel.
+- **Flow pipelines** — sequential agent workflows on a free-form canvas. Outputs flow forward via `{previous}`. Hit Run; agents plan, build, review, and ship without touching a keyboard between stages.
+- **Tasks** — nine pre-wired workflow templates (Bug Fix, Code Review, Greenfield, Mobile Feature, Website Redesign, and more). Save your current session as a custom template.
+- **Worktrees** — spin up a git worktree off any branch from the sidebar. Multiple agents work parallel branches without touching each other's work.
+- **Diff review + PR** — per-hunk approve/reject with a send-back loop for revisions. AI drafts the PR title and body. One click opens it via the `gh` CLI.
+- **Mission Control** — ⌘⇧M opens a dashboard of every project, every agent. Live status, current tool, per-session cost, and time-since-activity.
+- **Preview pane** — inline browser preview with real toolbar, 375px mobile-viewport simulator, ⌘+/⌘−/⌘0 zoom, reload-on-save via file watcher, inline DevTools.
+- **Built-in terminal** — full PTY shell with WebGL-accelerated rendering, custom shortcut buttons, persistence across panel open/close.
+- **Project wiki** — markdown wiki at `.inzone/wiki/` that agents read, edit, and cite. The bundled Wiki Protocol auto-injects into every agent prompt; agents must keep it current after every code-touching task.
+- **Voice control** — powered by ElevenLabs. Spin up agents, message panes, switch modes, and ask wiki-grounded project questions hands-free.
+- **Plugins + marketplaces** — browse, install, and toggle Claude Code plugins (agents, skills, commands, MCPs, hooks) from inside the app. Anthropic's official marketplace plus any third-party one.
+- **Slash commands** — `/` opens a picker with project + user + plugin + built-in commands. Argument templates included.
+- **Workers tab** — every CLI agent and worker lives on one shared toolbar. Drag any tool onto any pane.
+- **Agent editor** — wide CodeMirror Markdown drawer for editing every agent and skill in place. Per-agent tool, skill, and MCP allowlists.
+- **MCP servers** — 13 one-click integrations (Linear, Atlassian, Notion, Stripe, Brave, Playwright, etc.). OAuth via local callback. Tokens encrypted in the macOS keychain.
+- **Caveman mode** — ~65–75% fewer natural-language tokens in assistant replies, code and identifiers preserved verbatim.
+
+Platform: macOS 13 or later. License: MIT. Pricing: free (bring your own Anthropic API key or Claude subscription — token usage billed by Anthropic).
+
+## Docs
+
+- [Homepage](https://inzone.app/): full feature list, comparison table vs Claude Code and Cursor, design philosophy, terminal quick-start.
+- [GitHub repository](https://github.com/eimis1990/inzone): source code, MIT license.
+- [Releases](https://github.com/eimis1990/inzone/releases): macOS app downloads (alpha).
+- [Contributors](https://github.com/eimis1990/inzone/graphs/contributors): contributor list.
+
+## Optional
+
+- INZONE is alpha software; expect rapid iteration.
+- INZONE reads your existing Claude Code configuration: `~/.claude/agents/`, skills, `.claude.json`, `.mcp.json`, project `CLAUDE.md`, and plugin install state. Nothing has to be re-set-up.
+- Compared to Cursor (a single-agent IDE) and the Claude Code CLI (a single-pane terminal), INZONE is purpose-built for running fleets of agents in parallel with a shared project wiki and visual orchestration.
+- Outbound network traffic is limited to Anthropic, optional ElevenLabs (voice), and any MCP servers the user explicitly adds.
