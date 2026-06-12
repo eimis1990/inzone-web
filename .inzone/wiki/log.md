@@ -202,3 +202,7 @@ Rewrote `InteractiveFeaturesSection` in `src/components/LandingClient.tsx` (was 
 
 Removed `KofiWidget` import + JSX mount from `src/app/layout.tsx` (component file `src/components/KofiWidget.tsx` left on disk, now unimported). Doubled scroll distance per pinned feature card in `src/components/LandingClient.tsx` `InteractiveFeaturesSection`: ScrollTrigger `end: \`+=${cards.length * 100}%\`` → `+=${cards.length * 200}%` — each card boundary now requires twice the wheel travel, preventing a single mouse-wheel tick from advancing past a card. `pnpm build` green (1632ms compile, 1812ms typecheck). See [[architecture]].
 
+## [2026-06-12] edit | auto-migrated to Wiki v2 layout
+
+Added `daily/`, `knowledge/{concepts,connections,qa}/`, and a wiki-root `.gitignore` excluding machine-only artefacts. Existing curated pages are unchanged. See [[wiki-schema]] for the updated three-layer model.
+

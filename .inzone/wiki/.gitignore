@@ -1,0 +1,4 @@
+# Machine-only artefacts — regeneratable, never committed.
+.state.json
+.reports/
+.cache/
